@@ -39,9 +39,7 @@
 				@updateSidebarTheme="updateSidebarTheme"
 				@updateSidebarColor="updateSidebarColor"
 			></DashboardSettingsDrawer>
-
 		</a-layout>
-
 	</div>
 </template>
 
@@ -57,7 +55,7 @@
 	const sidebarCollapsed = ref(false)
 	const sidebarColor = ref("primary")
 	const sidebarTheme = ref("white")
-	const navbarFixed = ref(false)
+	const navbarFixed = ref(true)
 	const showSettingsDrawer = ref(false)
 
 	const toggleSidebar = (value) => {

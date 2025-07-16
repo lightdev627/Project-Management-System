@@ -31,22 +31,22 @@ let routes = [
 		component: () => import('../views/ProjectTimeline.vue'),
 	},
 	{
-		path: '/tasks',
+		path: '/list',
+		name: 'Task List',
+		layout: "dashboard",
+		component: () => import('../views/TaskList.vue'),
+	},
+	{
+		path: '/dailytasks',
 		name: 'Daily Tasks',
 		layout: "dashboard",
 		component: () => import('../views/DailyTasks.vue'),
 	},
 	{
 		path: '/schedule',
-		name: 'Weekly Schedule',
+		name: 'Weekly/Monthly Schedule',
 		layout: "dashboard",
-		component: () => import('../views/WeeklySchedule.vue'),
-	},
-	{
-		path: '/planner',
-		name: 'Monthly Planner',
-		layout: "dashboard",
-		component: () => import('../views/MonthlyPlanner.vue'),
+		component: () => import('../views/Schedule.vue'),
 	},
 	{
 		path: '/notes',

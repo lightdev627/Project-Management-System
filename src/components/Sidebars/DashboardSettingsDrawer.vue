@@ -81,7 +81,7 @@
 		},
 		navbarFixed: {
 			type: Boolean,
-			default: false,
+			default: true,
 		},
 	})
 

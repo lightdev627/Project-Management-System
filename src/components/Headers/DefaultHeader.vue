@@ -66,12 +66,8 @@
 
 			<!-- Collapsible Navigation Menu For Small Screens -->
 			<div class="menu-small">
-				
-				<!-- Collapsible Component For Navigation Menu For Small Screens -->
 				<a-collapse v-model="collapseNav" accordion>
 					<a-collapse-panel key="1">
-
-						<!-- Navigation Menu For Small Screens -->
 						<a-menu mode="vertical">
 							<a-menu-item>
 								<router-link to="/dashboard" class="nav-link" @click="e => e.preventDefault()">
@@ -119,22 +115,14 @@
 								</router-link>
 							</a-menu-item>
 						</a-menu>
-						<!-- / Navigation Menu For Small Screens -->
-
 					</a-collapse-panel>
 				</a-collapse>
-				<!-- / Collapsible Component For Navigation Menu For Small Screens -->
-
 			</div>
-			<!-- / Collapsible Navigation Menu For Small Screens -->
-
 		</div>
 		<div class="header-col header-btn">
 			<a-button href="https://www.creative-tim.com/product/muse-vue-ant-design-dashboard" target="_blank" type="primary" shape="round">FREE DOWNLOAD</a-button>
 		</div>
 	</a-layout-header>
-	<!-- / Layout Header ( Navbar ) -->
-
 </template>
 
 <script setup>

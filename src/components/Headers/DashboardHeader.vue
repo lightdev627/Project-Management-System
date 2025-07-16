@@ -95,6 +95,7 @@
 </template>
 
 <script setup>
+
 	import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
 	// Static notifications data outside props
@@ -120,7 +121,7 @@
 	const props = defineProps({
 		navbarFixed: {
 			type: Boolean,
-			default: false,
+			default: true,
 		},
 		sidebarCollapsed: {
 			type: Boolean,

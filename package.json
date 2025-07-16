@@ -1,10 +1,8 @@
 {
-  "name": "muse-vue-ant-design-dashboard",
+  "name": "project-management-system",
   "version": "1.0.0",
-  "description": "A user-friendly, open source and beautiful dashboard based on Ant Design Vue.",
+  "description": "",
   "main": "src/main.js",
-  "homepage": "https://demos.creative-tim.com/muse-ant-design-dashboard/",
-  "repository": "https://github.com/creativetimofficial/muse-ant-design-dashboard",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -15,17 +13,25 @@
   "dependencies": {
     "@ant-design/colors": "^7.2.1",
     "@ant-design/icons-vue": "^7.0.1",
+    "@syncfusion/ej2-base": "^30.1.38",
+    "@syncfusion/ej2-charts": "^30.1.40",
+    "@syncfusion/ej2-icons": "^30.1.37",
+    "@syncfusion/ej2-vue-base": "^30.1.37",
     "@syncfusion/ej2-vue-buttons": "^30.1.37",
+    "@syncfusion/ej2-vue-charts": "^30.1.40",
     "@syncfusion/ej2-vue-gantt": "^30.1.39",
     "@vue/compiler-sfc": "^3.5.17",
     "ant-design-vue": "^3.2.20",
+    "apexcharts": "^5.2.0",
     "chart.js": "3.4.1",
     "core-js": "3.15.2",
     "d3": "^7.9.0",
     "d3-transition": "^3.0.1",
     "sass": "^1.89.2",
     "vue": "3.4.0",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "vue3-apexcharts": "^1.8.0",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^5.0.8",

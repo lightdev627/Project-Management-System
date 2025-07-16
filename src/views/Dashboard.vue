@@ -4,7 +4,6 @@
 			<QuickAccessPanel />
 		</a-col>
 		<a-col :span="18">
-			<!-- Overview Section -->
 			<div class="overview-section">
 				<div class="overview-header">OVERVIEW</div>
 				<!-- Horizontally long filter card at the top -->
@@ -13,7 +12,8 @@
 						<a-col :span="6">
 							<span style="font-size:14px; font-weight:500; margin-right:8px;">Member:</span>
 							<a-select style="width: 70%;" placeholder="Select Member">
-								<a-select-option v-for="member in memberList" :key="member">{{ member }}</a-select-option>
+								<a-select-option value="ALL">ALL</a-select-option>
+								<a-select-option v-for="member in baseMembers" :key="member" :value="member">{{ member }}</a-select-option>
 							</a-select>
 						</a-col>
 						<a-col :span="6">
@@ -22,14 +22,11 @@
 								<a-select-option v-for="project in projectList" :key="project">{{ project }}</a-select-option>
 							</a-select>
 						</a-col>
-						<!-- Add more filters here if needed -->
 					</a-row>
 				</a-card>
 				<a-row gutter="16">
-					<!-- Main 2x2 grid for charts with vertical lists (no filter card) -->
 					<a-col>
 						<a-row gutter="16">
-							<!-- Top row: Statuses Breakdown | Member List | Members Workload -->
 							<a-col :span="10">
 								<a-card title="Statuses Breakdown" bordered>
 									<CardSunburstChart />
@@ -37,9 +34,25 @@
 							</a-col>
 							<a-col :span="4">
 								<a-card title="Member" bordered bodyStyle="padding: 8px; min-height: 260px;">
-									<div style="max-height: 220px; overflow-y: auto;">
-										<ul style="list-style: none; padding: 0; margin: 0; font-size: 13px;">
-											<li v-for="member in memberList" :key="member" style="padding: 4px 0; border-bottom: 1px solid #f0f0f0;">{{ member }}</li>
+									<div style="max-height: 500px; overflow-y: auto;">
+										<ul class="fantastic-member-list">
+											<li
+												v-for="member in memberList"
+												:key="member"
+												:class="['fantastic-member-item', { selected: selectedMembers.includes(member) }]"
+												@click="toggleMember(member)"
+											>
+												<label class="fantastic-checkbox-label">
+													<input
+														type="checkbox"
+														:checked="selectedMembers.includes(member)"
+														@change.stop="toggleMember(member)"
+														class="fantastic-checkbox"
+													/>
+													<span class="fantastic-custom-checkbox"></span>
+													<span class="fantastic-member-name">{{ member }}</span>
+												</label>
+											</li>
 										</ul>
 									</div>
 								</a-card>
@@ -47,15 +60,13 @@
 							<a-col :span="10">
 								<a-card title="Members Workload" bordered>
 									<!-- Replace with Bar Chart -->
-									<CardBarChart />
+									<CardBarChart :selectedMembers="selectedMembers" />
 								</a-card>
 							</a-col>
 						</a-row>
 						<a-row gutter="16" style="margin-top: 16px;">
-							<!-- Bottom row: Project Timeline Progress % | Project List | Projects Progress in Days -->
 							<a-col :span="10">
 								<a-card title="Project Timeline Progress %" bordered>
-									<!-- Replace with Bar Chart -->
 									<CardBarChart />
 								</a-card>
 							</a-col>
@@ -70,7 +81,6 @@
 							</a-col>
 							<a-col :span="10">
 								<a-card title="Projects Progress in Days" bordered>
-									<!-- Replace with Bar Chart -->
 									<CardBarChart />
 								</a-card>
 							</a-col>
@@ -106,12 +116,12 @@
 					</a-col>
 				</a-row>
 			</div>
-			<!-- Dashboard main content goes here -->
 		</a-col>
 	</a-row>
 </template>
 
 <script setup>
+	import { ref } from 'vue';
 	import CardBarChart from '@/components/Cards/CardBarChart.vue';
 	import CardSunburstChart from '@/components/Cards/CardSunburstChart.vue';
 	import QuickAccessPanel from '../components/QuickAccessPanel.vue';
@@ -260,10 +270,40 @@
 		},
 	];
 
-	const memberList = [
+	const baseMembers = [
 		'Bob Dasika', 'Gale Wallace', 'Jaydeep Patel', 'Norman Whitehead',
 		'Ricardo James', 'Shilpa Vadlamudi', 'Tommeka Johnson', '(blank)'
 	];
+	const memberList = ['ALL', ...baseMembers];
+	const selectedMembers = ref(['ALL']);
+
+	function toggleMember(member) {
+		if (member === 'ALL') {
+			if (selectedMembers.value.includes('ALL')) {
+				// Deselect all
+				selectedMembers.value = [];
+			} else {
+				// Select all
+				selectedMembers.value = [...memberList];
+			}
+			return;
+		}
+		const idx = selectedMembers.value.indexOf(member);
+		if (idx === -1) {
+			selectedMembers.value.push(member);
+			// If all individual members are selected, also select 'ALL'
+			if (baseMembers.every(m => selectedMembers.value.includes(m))) {
+				if (!selectedMembers.value.includes('ALL')) selectedMembers.value.unshift('ALL');
+			}
+		} else {
+			selectedMembers.value.splice(idx, 1);
+			// If 'ALL' is selected, remove it if any member is deselected
+			const allIdx = selectedMembers.value.indexOf('ALL');
+			if (allIdx !== -1 && member !== 'ALL') {
+				selectedMembers.value.splice(allIdx, 1);
+			}
+		}
+	}
 
 	const projectList = [
 		'BCAC_Phase_1', 'BCAC_Phase_2', 'BCAC_Phase_3', 'BCAC_Phase_4', 'BCAC_Phase_5',
@@ -341,4 +381,78 @@
 		margin-bottom: 16px;
 		letter-spacing: 1px;
 	}
+
+.fantastic-member-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+}
+.fantastic-member-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.15s;
+  &:hover, &.selected {
+    background: #f5f7fa;
+  }
+}
+.fantastic-checkbox-label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+.fantastic-checkbox {
+  display: none;
+}
+.fantastic-custom-checkbox {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 2px solid #bfc7d1;
+  background: #fff;
+  margin-right: 10px;
+  position: relative;
+  transition: border 0.15s;
+}
+.fantastic-checkbox:checked + .fantastic-custom-checkbox {
+  background: #409eff;
+  border-color: #409eff;
+}
+.fantastic-checkbox:checked + .fantastic-custom-checkbox::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1.5px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.fantastic-member-name {
+  flex: 1;
+  font-weight: 400;
+  color: #222;
+  letter-spacing: 0.2px;
+}
+.fantastic-select-all {
+  background: #f5f7fa;
+  border: 1px solid #bfc7d1;
+  color: #409eff;
+  font-weight: 500;
+  border-radius: 4px;
+  padding: 4px 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.15s, border 0.15s;
+}
+.fantastic-select-all:hover {
+  background: #e6f0fa;
+  border-color: #409eff;
+}
 </style>
