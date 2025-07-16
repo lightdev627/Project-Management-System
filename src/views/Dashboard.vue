@@ -5,7 +5,6 @@
 		</a-col>
 		<a-col :span="18">
 			<div class="overview-section">
-				<div class="overview-header">OVERVIEW</div>
 				<!-- Horizontally long filter card at the top -->
 				<a-card bordered style="margin-bottom: 20px;">
 					<a-row gutter="16" align="middle">
@@ -28,13 +27,13 @@
 					<a-col>
 						<a-row gutter="16">
 							<a-col :span="10">
-								<a-card title="Statuses Breakdown" bordered>
-									<CardSunburstChart />
+								<a-card bordered>
+									<SunburstCard />
 								</a-card>
 							</a-col>
 							<a-col :span="4">
 								<a-card title="Member" bordered bodyStyle="padding: 8px; min-height: 260px;">
-									<div style="max-height: 500px; overflow-y: auto;">
+									<div style="min-height: 570px; overflow-y: auto;">
 										<ul class="fantastic-member-list">
 											<li
 												v-for="member in memberList"
@@ -58,21 +57,21 @@
 								</a-card>
 							</a-col>
 							<a-col :span="10">
-								<a-card title="Members Workload" bordered>
+								<a-card bordered>
 									<!-- Replace with Bar Chart -->
-									<CardBarChart :selectedMembers="selectedMembers" />
+									<MemberWorkloadCard :selectedMembers="selectedMembers" />
 								</a-card>
 							</a-col>
 						</a-row>
 						<a-row gutter="16" style="margin-top: 16px;">
 							<a-col :span="10">
-								<a-card title="Project Timeline Progress %" bordered>
-									<CardBarChart />
+								<a-card bordered>
+									<ProjectProgressCard />
 								</a-card>
 							</a-col>
 							<a-col :span="4">
 								<a-card title="Project" bordered bodyStyle="padding: 8px; min-height: 260px;">
-									<div style="max-height: 220px; overflow-y: auto;">
+									<div style="min-height: 342px; overflow-y: auto;">
 										<ul style="list-style: none; padding: 0; margin: 0; font-size: 13px;">
 											<li v-for="project in projectList" :key="project" style="padding: 4px 0; border-bottom: 1px solid #f0f0f0;">{{ project }}</li>
 										</ul>
@@ -80,8 +79,8 @@
 								</a-card>
 							</a-col>
 							<a-col :span="10">
-								<a-card title="Projects Progress in Days" bordered>
-									<CardBarChart />
+								<a-card bordered>
+									<ProjectTimelineCard />
 								</a-card>
 							</a-col>
 						</a-row>
@@ -122,153 +121,11 @@
 
 <script setup>
 	import { ref } from 'vue';
-	import CardBarChart from '@/components/Cards/CardBarChart.vue';
-	import CardSunburstChart from '@/components/Cards/CardSunburstChart.vue';
-	import QuickAccessPanel from '../components/QuickAccessPanel.vue';
-
-	const stats = [
-		{
-			title: "Today’s Sales",
-			value: 53000,
-			prefix: "$",
-			suffix: "+30%",
-			icon: `
-				<svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M8.43338 7.41784C8.58818 7.31464 8.77939 7.2224 9 7.15101L9.00001 8.84899C8.77939 8.7776 8.58818 8.68536 8.43338 8.58216C8.06927 8.33942 8 8.1139 8 8C8 7.8861 8.06927 7.66058 8.43338 7.41784Z" fill="#111827"/>
-					<path d="M11 12.849L11 11.151C11.2206 11.2224 11.4118 11.3146 11.5666 11.4178C11.9308 11.6606 12 11.8861 12 12C12 12.1139 11.9308 12.3394 11.5666 12.5822C11.4118 12.6854 11.2206 12.7776 11 12.849Z" fill="#111827"/>
-					<path fill-rule="evenodd" clip-rule="evenodd" d="..." fill="#111827"/>
-				</svg>`,
-		},
-		{
-			title: "Today’s Users",
-			value: 3200,
-			suffix: "+20%",
-			icon: `
-				<svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="..." fill="#111827"/>
-				</svg>`,
-		},
-		{
-			title: "New Clients",
-			value: 1200,
-			prefix: "+",
-			status: "danger",
-			suffix: "-20%",
-			icon: `
-				<svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path fill-rule="evenodd" clip-rule="evenodd" d="..." fill="#111827"/>
-				</svg>`,
-		},
-		{
-			title: "New Orders",
-			value: 13200,
-			prefix: "$",
-			suffix: "+10%",
-			icon: `
-				<svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path fill-rule="evenodd" clip-rule="evenodd" d="..." fill="#111827"/>
-				</svg>`,
-		},
-	];
-
-	const tableColumns = [
-		{
-			title: 'COMPANIES',
-			dataIndex: 'company',
-			scopedSlots: { customRender: 'company' },
-			width: 300,
-		},
-		{
-			title: 'MEMBERS',
-			dataIndex: 'members',
-			scopedSlots: { customRender: 'members' },
-		},
-		{
-			title: 'BUDGET',
-			dataIndex: 'budget',
-			class: 'font-bold text-muted text-sm',
-		},
-		{
-			title: 'COMPLETION',
-			dataIndex: 'completion',
-			scopedSlots: { customRender: 'completion' },
-		},
-	];
-
-	const tableData = [
-		{
-			key: '1',
-			company: {
-				name: 'Soft UI Shopify Version',
-				logo: 'images/logos/logo-shopify.svg',
-			},
-			members: ["images/face-1.jpg", "images/face-4.jpg", "images/face-2.jpg", "images/face-3.jpg"],
-			budget: '$14,000',
-			completion: 60,
-		},
-		{
-			key: '2',
-			company: {
-				name: 'Progress Track',
-				logo: 'images/logos/logo-atlassian.svg',
-			},
-			members: ["images/face-4.jpg", "images/face-3.jpg"],
-			budget: '$3,000',
-			completion: 10,
-		},
-		{
-			key: '3',
-			company: {
-				name: 'Fix Platform Errors',
-				logo: 'images/logos/logo-slack.svg',
-			},
-			members: ["images/face-1.jpg", "images/face-2.jpg", "images/face-3.jpg"],
-			budget: 'Not Set',
-			completion: {
-				label: '100',
-				status: 'success',
-				value: 100,
-			},
-		},
-		{
-			key: '4',
-			company: {
-				name: 'Launch new Mobile App',
-				logo: 'images/logos/logo-spotify.svg',
-			},
-			members: ["images/face-1.jpg", "images/face-2.jpg"],
-			budget: '$20,600',
-			completion: {
-				label: '100',
-				status: 'success',
-				value: 100,
-			},
-		},
-		{
-			key: '5',
-			company: {
-				name: 'Add the New Landing Page',
-				logo: 'images/logos/logo-jira.svg',
-			},
-			members: ["images/face-1.jpg", "images/face-4.jpg", "images/face-2.jpg", "images/face-3.jpg"],
-			budget: '$4,000',
-			completion: 80,
-		},
-		{
-			key: '6',
-			company: {
-				name: 'Redesign Online Store',
-				logo: 'images/logos/logo-invision.svg',
-			},
-			members: ["images/face-1.jpg", "images/face-4.jpg", "images/face-3.jpg"],
-			budget: '$2,000',
-			completion: {
-				label: 'Cancelled',
-				status: 'exception',
-				value: 100,
-			},
-		},
-	];
+	import SunburstCard from '@/components/Cards/SunburstCard.vue';
+	import MemberWorkloadCard from '@/components/Cards/MemberWorkloadCard.vue';
+	import ProjectProgressCard from '@/components/Cards/ProjectProgressCard.vue';
+	import ProjectTimelineCard from '@/components/Cards/ProjectTimelineCard.vue';
+	import QuickAccessPanel from '@/components/QuickAccessPanel.vue';
 
 	const baseMembers = [
 		'Bob Dasika', 'Gale Wallace', 'Jaydeep Patel', 'Norman Whitehead',

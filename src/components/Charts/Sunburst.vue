@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="min-height: 625px">
     <div ref="chartContainer" class="sunburst-chart" id="chartId"></div>
     <div class="selected-info" v-if="selectedItem">
       <strong>Selected:</strong> {{ selectedItem.name }}<br/>

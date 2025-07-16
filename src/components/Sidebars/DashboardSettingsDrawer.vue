@@ -62,8 +62,9 @@
 </template>
 
 <script setup>
-	import { ref, computed, onMounted } from 'vue'
+	import { ref, computed, onMounted, watch } from 'vue'
 	import { useAttrs } from 'vue'
+	const emit = defineEmits(['toggleNavbarPosition', 'toggleSettingsDrawer', 'updateSidebarTheme', 'updateSidebarColor'])
 
 	// Props
 	const props = defineProps({
@@ -90,6 +91,18 @@
 	const sidebarColorModel = ref(props.sidebarColor)
 	const sidebarThemeModel = ref(props.sidebarTheme)
 	const navbarFixedModel = ref(props.navbarFixed)
+
+	// Watch for prop changes to sync model
+	watch(() => props.navbarFixed, (val) => {
+	  navbarFixedModel.value = val
+	})
+
+	// Watch for model changes to emit to parent
+	watch(navbarFixedModel, (val) => {
+	  if (val !== props.navbarFixed) {
+	    emit('toggleNavbarPosition', val)
+	  }
+	})
 
 	// Lifecycle
 	onMounted(() => {

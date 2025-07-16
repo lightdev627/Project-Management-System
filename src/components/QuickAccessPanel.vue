@@ -17,7 +17,7 @@
         </router-link>
       </a-col>
       <a-col :span="5">
-        <router-link to="/tasks">
+        <router-link to="/dailytasks">
           <a-button type="default" shape="circle">
             <template #icon>
               <UnorderedListOutlined />
@@ -27,23 +27,23 @@
         </router-link>
       </a-col>
       <a-col :span="5">
-        <router-link to="/schedule">
+        <router-link to="/list">
           <a-button type="default" shape="circle">
             <template #icon>
               <TeamOutlined />
             </template>
           </a-button>
-          <div class="quick-access-label">Weekly Schedule</div>
+          <div class="quick-access-label">Task List</div>
         </router-link>
       </a-col>
       <a-col :span="5">
-        <router-link to="/planner">
+        <router-link to="/schedule">
           <a-button type="default" shape="circle">
             <template #icon>
               <ScheduleOutlined />
             </template>
           </a-button>
-          <div class="quick-access-label">Monthly Planner</div>
+          <div class="quick-access-label">Weekly/Monthly Schedule</div>
         </router-link>
       </a-col>
       <a-col :span="4">
@@ -88,6 +88,12 @@
   const announcementData = ref([
     { key: 1, date: '', by: '', details: '' },
     { key: 2, date: '', by: '', details: '' },
+    { key: 3, date: '', by: '', details: '' },
+    { key: 4, date: '', by: '', details: '' },
+    { key: 5, date: '', by: '', details: '' },
+    { key: 6, date: '', by: '', details: '' },
+    { key: 7, date: '', by: '', details: '' },
+    { key: 8, date: '', by: '', details: '' },
   ]);
 
   const urgentColumns = [
@@ -99,6 +105,12 @@
   const urgentData = ref([
     { key: 1, deadline: '', by: '', details: '' },
     { key: 2, deadline: '', by: '', details: '' },
+    { key: 3, deadline: '', by: '', details: '' },
+    { key: 4, deadline: '', by: '', details: '' },
+    { key: 5, deadline: '', by: '', details: '' },
+    { key: 6, deadline: '', by: '', details: '' },
+    { key: 7, deadline: '', by: '', details: '' },
+    { key: 8, deadline: '', by: '', details: '' },
   ]);
 </script>
 

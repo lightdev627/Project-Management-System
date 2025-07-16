@@ -13,6 +13,7 @@ import {
   Selection,
   DayMarkers
 } from '@syncfusion/ej2-vue-gantt'
+import HighchartsVue from 'highcharts-vue'
 import { Gantt } from '@syncfusion/ej2-gantt'
 
 import './scss/app.scss';
@@ -26,6 +27,7 @@ app.component('layout-dashboard', DashboardLayout)
 // Use plugins
 app.use(Antd)
 app.use(GanttPlugin)
+app.use(HighchartsVue)
 Gantt.Inject(Toolbar, Edit, Selection, DayMarkers)
 
 app.use(router)

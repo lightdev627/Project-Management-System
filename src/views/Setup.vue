@@ -1,6 +1,11 @@
 <template>
   <div class="setup-dashboard">
-    <div v-for="(column, colIdx) in columns" :key="colIdx" class="dashboard-column">
+    <div
+      v-for="(column, colIdx) in columns"
+      :key="colIdx"
+      class="dashboard-column"
+      ref="dashboardColumns"
+    >
       <div class="dashboard-header">{{ column.title }}</div>
       <ul v-if="column.title !== 'KEY'" class="dashboard-list">
         <li v-for="(item, i) in column.items" :key="i" class="dashboard-list-item">
@@ -337,11 +342,11 @@ const keyRows = computed(() => {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: flex-start;
+  align-items: stretch; /* changed from flex-start to stretch */
   gap: 2rem;
   padding: 3rem 1rem;
   background: #ffffff;
-  min-height: 100vh;
+  min-height: 80vh;
   border-radius: 15px;
 }
 .dashboard-column {
@@ -355,6 +360,7 @@ const keyRows = computed(() => {
   flex-direction: column;
   align-items: stretch;
   border: 1.5px solid #e0e7ff;
+  min-height: 400px; /* reduced height for a less tall board */
 }
 .dashboard-header {
   font-size: 1.15rem;
@@ -542,6 +548,7 @@ const keyRows = computed(() => {
 }
 .key-row {
   display: flex;
+  border-bottom: 1px dashed #e5e7eb;
   flex-direction: row;
   gap: 1.5rem;
   justify-content: center;
