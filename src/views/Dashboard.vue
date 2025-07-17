@@ -135,7 +135,7 @@
               title="Projects Timeline Progress %"
               bordered
               :bodyStyle="{
-                minHeight: '260px',
+                minHeight: '300px',
                 display: 'flex',
                 flexDirection: 'column',
               }"
@@ -147,7 +147,13 @@
                 :pagination="false"
                 bordered
                 style="flex: 1; overflow: auto"
-              />
+              >
+                <template #footer>
+                  <div style="text-align: center">
+                    There are {{ pivotData1.length }} items.
+                  </div>
+                </template></a-table
+              >
             </a-card>
           </a-col>
           <a-col :span="8">
@@ -155,7 +161,7 @@
               title="Projects Progress in Days"
               bordered
               :bodyStyle="{
-                minHeight: '260px',
+                minHeight: '300px',
                 display: 'flex',
                 flexDirection: 'column',
               }"
@@ -167,7 +173,12 @@
                 :pagination="false"
                 bordered
                 style="flex: 1; overflow: auto"
-              />
+                ><template #footer>
+                  <div style="text-align: center">
+                    There are {{ pivotData2.length }} items.
+                  </div>
+                </template></a-table
+              >
             </a-card>
           </a-col>
           <a-col :span="8">
@@ -175,7 +186,7 @@
               title="Total Statuses"
               bordered
               :bodyStyle="{
-                minHeight: '260px',
+                minHeight: '300px',
                 display: 'flex',
                 flexDirection: 'column',
               }"
@@ -187,7 +198,12 @@
                 :pagination="false"
                 bordered
                 style="flex: 1; overflow: auto"
-              />
+                ><template #footer>
+                  <div style="text-align: center">
+                    There are {{ pivotData3.length }} items.
+                  </div>
+                </template></a-table
+              >
             </a-card>
           </a-col>
         </a-row>
@@ -209,7 +225,12 @@
                 :pagination="false"
                 bordered
                 style="flex: 1; overflow: auto"
-              />
+                ><template #footer>
+                  <div style="text-align: center">
+                    There are {{ pivotData4.length }} items.
+                  </div>
+                </template></a-table
+              >
             </a-card>
           </a-col>
         </a-row>

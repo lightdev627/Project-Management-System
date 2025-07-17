@@ -1,21 +1,18 @@
 <template>
-  <a-card bordered style="margin-bottom: 20px">
+  <a-card class="daily-tasks-body">
     <!-- Header Bar with Datepicker -->
     <div class="kanban-header-bar">
+      <button
+        class="kanban-create-btn kanban-create-btn-large"
+        @click="addBoard"
+      >
+        <span class="plus">+</span> Add Board
+      </button>
       <div class="kanban-header-actions">
         <input type="date" v-model="selectedDate" class="kanban-datepicker" />
       </div>
     </div>
     <div class="kanban-board">
-      <!-- Add Board Button on Upper Left -->
-      <div class="kanban-column kanban-add-board kanban-add-board-top">
-        <button
-          class="kanban-create-btn kanban-create-btn-large"
-          @click="addBoard"
-        >
-          <span class="plus">+</span> Add Board
-        </button>
-      </div>
       <div
         class="kanban-column"
         v-for="(column, colIdx) in columns"
@@ -41,9 +38,6 @@
             <span v-if="column.tasks.length" class="kanban-count">{{
               column.tasks.length
             }}</span>
-            <span v-if="column.id === 'done'" class="kanban-done-check"
-              >✔️</span
-            >
           </div>
           <div class="kanban-header-right">
             <button
@@ -59,122 +53,107 @@
               </a>
               <template #overlay>
                 <a-menu>
-                  <a-menu-item @click="editBoardTitle(colIdx)"
-                    >Edit Title</a-menu-item
-                  >
+                  <a-menu-item @click="editBoardTitle(colIdx)">
+                    Edit Title
+                  </a-menu-item>
                   <a-menu-item
                     @click="deleteBoard(colIdx)"
                     v-if="columns.length > 1"
-                    >Delete Board</a-menu-item
                   >
+                    Delete Board
+                  </a-menu-item>
                 </a-menu>
               </template>
             </a-dropdown>
           </div>
         </div>
 
-        <!-- Inline Add Task Section -->
-        <div v-if="column.showingAddTask" class="kanban-add-task-inline">
-          <div class="kanban-add-task-select-row">
-            <select
-              v-model="column.selectedTaskId"
-              class="kanban-add-task-select"
-              style="width: 220px"
-            >
-              <option value="">Select a task...</option>
-              <option
-                v-for="task in availableTasks"
-                :key="task.id"
-                :value="task.id"
+        <div>
+          <div v-if="column.showingAddTask" class="kanban-add-task-inline">
+            <div class="kanban-add-task-select-row">
+              <select
+                v-model="column.selectedTaskId"
+                class="kanban-add-task-select"
+                style="width: 220px"
               >
-                {{ task.title }} ({{ task.code }})
-              </option>
-            </select>
-          </div>
-          <div class="kanban-add-task-buttons">
-            <button
-              class="kanban-add-task-confirm-btn"
-              @click="confirmAddTask(colIdx)"
-              :disabled="!column.selectedTaskId"
-            >
-              Add
-            </button>
-            <button
-              class="kanban-add-task-cancel-btn"
-              @click="cancelAddTask(colIdx)"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-
-        <draggable
-          v-model="column.tasks"
-          group="tasks"
-          :animation="200"
-          item-key="id"
-          class="kanban-tasks"
-          @end="onDragEnd"
-        >
-          <template #item="{ element: task, index }">
-            <div class="kanban-card">
-              <div class="kanban-card-title-row">
-                <span
-                  v-if="!task.editing"
-                  class="kanban-card-title"
-                  @click="editTask(colIdx, index)"
-                  >{{ task.title }}</span
+                <option value="">Select a task...</option>
+                <option
+                  v-for="task in availableTasks"
+                  :key="task.id"
+                  :value="task.id"
                 >
-                <input
-                  v-else
-                  v-model="task.title"
-                  ref="taskTitleInputs"
-                  @blur="saveTaskEdit(colIdx, index)"
-                  @keyup.enter="saveTaskEdit(colIdx, index)"
-                  class="kanban-title-input"
-                  @mousedown.stop
-                />
-                <a-dropdown trigger="click">
-                  <a class="ant-dropdown-link" @click.prevent>
-                    <span style="font-size: 18px; margin-left: 8px">⋮</span>
-                  </a>
-                  <template #overlay>
-                    <a-menu>
-                      <a-menu-item @click="editTask(colIdx, index)"
-                        >Edit</a-menu-item
-                      >
-                      <a-menu-item @click="deleteTask(colIdx, index)"
-                        >Delete</a-menu-item
-                      >
-                    </a-menu>
-                  </template>
-                </a-dropdown>
-              </div>
-              <div class="kanban-card-meta">
-                <span v-if="!task.editing" class="kanban-card-id">{{
-                  task.code
-                }}</span>
-                <input
-                  v-else
-                  v-model="task.code"
-                  ref="taskCodeInputs"
-                  @blur="saveTaskEdit(colIdx, index)"
-                  @keyup.enter="saveTaskEdit(colIdx, index)"
-                  class="kanban-title-input"
-                  style="width: 80px; margin-left: 8px"
-                  @mousedown.stop
-                />
-              </div>
+                  {{ task.title }} ({{ task.code }})
+                </option>
+              </select>
             </div>
-          </template>
-        </draggable>
+            <div class="kanban-add-task-buttons">
+              <button
+                class="kanban-add-task-confirm-btn"
+                @click="confirmAddTask(colIdx)"
+                :disabled="!column.selectedTaskId"
+              >
+                Add
+              </button>
+              <button
+                class="kanban-add-task-cancel-btn"
+                @click="cancelAddTask(colIdx)"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+
+          <draggable
+            v-model="column.tasks"
+            group="tasks"
+            :animation="200"
+            item-key="id"
+            class="kanban-tasks"
+            @end="onDragEnd"
+          >
+            <template #item="{ element: task, index }">
+              <div class="kanban-card">
+                <div class="kanban-card-title-row">
+                  <span class="kanban-card-title">{{ task.title }}</span>
+                  <a-dropdown trigger="click">
+                    <a class="ant-dropdown-link" @click.prevent>
+                      <span style="font-size: 18px; margin-left: 8px">⋮</span>
+                    </a>
+                    <template #overlay>
+                      <a-menu>
+                        <a-menu-item @click="deleteTask(colIdx, index)">
+                          Delete
+                        </a-menu-item>
+                      </a-menu>
+                    </template>
+                  </a-dropdown>
+                </div>
+                <div class="kanban-card-meta">
+                  <span class="kanban-card-id">{{ task.code }}</span>
+                </div>
+              </div>
+            </template>
+            <template #footer>
+              <div v-if="!column.tasks.length" class="kanban-empty-placeholder">
+                Drop tasks here
+              </div>
+            </template>
+          </draggable>
+        </div>
       </div>
     </div>
   </a-card>
 </template>
 
 <script setup>
-import { reactive, ref, onMounted, onBeforeUnmount, nextTick } from "vue";
+import {
+  reactive,
+  ref,
+  onMounted,
+  onBeforeUnmount,
+  nextTick,
+  computed,
+} from "vue";
 import draggable from "vuedraggable";
 
 const selectedDate = ref(new Date().toISOString().substr(0, 10));
@@ -206,13 +185,26 @@ const columns = reactive([
   },
 ]);
 
-// Temporary task list for selection
-const availableTasks = ref([
+// Master list of all possible tasks
+const allTasks = [
   { id: 1, title: "Design UI", code: "T-101" },
   { id: 2, title: "Setup Backend", code: "T-102" },
   { id: 3, title: "Write Docs", code: "T-103" },
   { id: 4, title: "Testing", code: "T-104" },
-]);
+  { id: 5, title: "Testing1", code: "T-104" },
+  { id: 6, title: "Testing2", code: "T-104" },
+  { id: 7, title: "Testing3", code: "T-104" },
+  { id: 8, title: "Testing4", code: "T-104" },
+];
+
+// Computed: tasks not present in any board
+const availableTasks = computed(() => {
+  const usedIds = new Set();
+  columns.forEach((col) => {
+    col.tasks.forEach((task) => usedIds.add(task.id));
+  });
+  return allTasks.filter((task) => !usedIds.has(task.id));
+});
 
 // Add Board
 function addBoard() {
@@ -243,28 +235,6 @@ function saveBoardTitle(colIdx) {
   columns[colIdx].editing = false;
 }
 
-// Task Editing
-function editTask(colIdx, taskIdx) {
-  columns.forEach((col, cIdx) => {
-    col.tasks.forEach((task, tIdx) => {
-      if (!(cIdx === colIdx && tIdx === taskIdx)) task.editing = false;
-    });
-  });
-  columns[colIdx].tasks[taskIdx].editing = true;
-  nextTick(() => {
-    const input = document.querySelectorAll(".kanban-title-input")[
-      colIdx + 3 + taskIdx
-    ];
-    if (input) input.focus();
-  });
-}
-function saveTaskEdit(colIdx, taskIdx) {
-  columns[colIdx].tasks[taskIdx].editing = false;
-}
-function deleteTask(colIdx, taskIdx) {
-  columns[colIdx].tasks.splice(taskIdx, 1);
-}
-
 // Inline Add Task Logic
 function toggleAddTask(colIdx) {
   columns[colIdx].showingAddTask = !columns[colIdx].showingAddTask;
@@ -278,16 +248,13 @@ function toggleAddTask(colIdx) {
 function confirmAddTask(colIdx) {
   if (!columns[colIdx].selectedTaskId) return;
 
-  const task = availableTasks.value.find(
-    (t) => t.id === columns[colIdx].selectedTaskId
-  );
+  const task = allTasks.find((t) => t.id === columns[colIdx].selectedTaskId);
   if (task) {
-    // Prevent duplicate in the same board
+    // Prevent duplicate in the same board (shouldn't happen due to filtering, but safe)
     const exists = columns[colIdx].tasks.some((t) => t.id === task.id);
     if (!exists) {
       columns[colIdx].tasks.push({
         ...task,
-        editing: false,
       });
     }
   }
@@ -302,13 +269,16 @@ function cancelAddTask(colIdx) {
   columns[colIdx].selectedTaskId = "";
 }
 
+function deleteTask(colIdx, taskIdx) {
+  columns[colIdx].tasks.splice(taskIdx, 1);
+}
+
 function onDragEnd() {
   // Optionally show a message or handle persistence
 }
 
-// End editing on outside click
+// End editing on outside click (only for board titles now)
 function handleClickOutside(event) {
-  // Board titles
   columns.forEach((col, colIdx) => {
     if (col.editing) {
       const input = document.querySelectorAll(".kanban-title-input")[colIdx];
@@ -316,17 +286,6 @@ function handleClickOutside(event) {
         saveBoardTitle(colIdx);
       }
     }
-    // Tasks
-    col.tasks.forEach((task, taskIdx) => {
-      if (task.editing) {
-        const input = document.querySelectorAll(".kanban-title-input")[
-          colIdx + 3 + taskIdx
-        ];
-        if (input && !input.contains(event.target)) {
-          saveTaskEdit(colIdx, taskIdx);
-        }
-      }
-    });
   });
 }
 
@@ -338,27 +297,64 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.daily-tasks-body {
+  padding: 1rem;
+  background: #ffffff;
+  min-height: 80vh;
+  border-radius: 15px;
+}
 .kanban-header-bar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   padding: 1.5rem 2rem 0 2rem;
 }
-.kanban-add-board-top {
-  min-width: 220px;
-  max-width: 220px;
-  background: transparent;
-  box-shadow: none;
+.kanban-add-board-bar {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 0 0 2rem 0;
+  padding: 0 0 2rem 2rem;
+}
+.kanban-board {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem 1rem 1rem 1rem;
+  background: #fff; /* white background */
+  min-height: 80vh;
+  overflow-x: auto;
+  overflow-y: visible;
+  white-space: nowrap;
+}
+.kanban-column {
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 4px 24px 0 rgba(25, 118, 210, 0.08); /* blue shadow */
+  padding: 1.5rem 1rem 2rem 1rem;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  max-height: 700px;
+  position: relative;
+  flex-shrink: 0;
+}
+/* Optional: Hide scrollbar for webkit browsers */
+.kanban-board::-webkit-scrollbar {
+  height: 10px;
+}
+.kanban-board::-webkit-scrollbar-thumb {
+  background: #e3f2fd;
+  border-radius: 5px;
+}
+.kanban-board::-webkit-scrollbar-track {
+  background: #fff;
 }
 .kanban-create-btn-large {
   padding: 0.7rem 1.5rem;
   font-size: 1.1rem;
   border-radius: 0.7rem;
+  cursor: pointer;
   background: #e3f2fd;
   color: #1976d2;
   border: none;
@@ -374,30 +370,19 @@ onBeforeUnmount(() => {
     margin-right: 0.5rem;
   }
 }
-.kanban-create-btn-small {
+.kanban-datepicker {
+  font-size: 1rem;
   padding: 0.3rem 0.7rem;
-  font-size: 1.1rem;
-  min-width: 0;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #e3f2fd; /* lighter blue */
-  color: #1976d2;
-  border: none;
-  box-shadow: none;
-  transition: background 0.2s;
-  &:hover {
-    background: #bbdefb;
-  }
+  border-radius: 0.5rem;
+  border: 1px solid #bbdefb; /* light blue */
 }
+
 .kanban-add-task-btn-small {
   padding: 0.3rem 0.7rem;
   font-size: 1.1rem;
   min-width: 0;
   width: 32px;
+  cursor: pointer;
   height: 32px;
   border-radius: 50%;
   display: flex;
@@ -422,24 +407,6 @@ onBeforeUnmount(() => {
 }
 .kanban-add-board-btn {
   margin-left: 0.5rem;
-}
-.kanban-board {
-  display: flex;
-  gap: 2rem;
-  padding: 2rem 0;
-  background: #fff; /* white background */
-  min-height: 80vh;
-}
-.kanban-column {
-  background: #fff;
-  border-radius: 1.2rem;
-  box-shadow: 0 4px 24px 0 rgba(25, 118, 210, 0.08); /* blue shadow */
-  padding: 1.5rem 1rem 2rem 1rem;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  min-height: 500px;
-  position: relative;
 }
 .kanban-header {
   display: flex;
@@ -483,6 +450,8 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  max-height: 600px;
+  overflow-y: auto;
 }
 .kanban-card {
   background: #f5faff;
@@ -504,6 +473,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   gap: 0.7rem;
+  justify-content: space-between;
 }
 .kanban-card-title {
   font-size: 1.08rem;
@@ -596,5 +566,18 @@ onBeforeUnmount(() => {
   border: 1px solid #e3f2fd;
   border-radius: 0.4rem;
   padding: 0.1rem 0.5rem;
+  max-width: 190px;
+}
+.kanban-empty-placeholder {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b0b0b0;
+  font-style: italic;
+  border: 2px dashed #e3f2fd;
+  border-radius: 0.7rem;
+  background: #f8fbff;
+  margin: 0.5rem 0;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <a-card bordered style="padding: 20px">
+  <a-card class="tasklist-body">
     <!-- Header with search and buttons -->
     <div
       style="
@@ -39,7 +39,9 @@
       :data-source="filteredTasks"
       row-key="key"
       bordered
+      size="small"
       :pagination="false"
+      style="border-bottom: 1px solid #ececec"
     >
       <template #bodyCell="{ column, record, index }">
         <template v-if="column.dataIndex === 'select'">
@@ -212,7 +214,7 @@ const tasks = ref([
 ]);
 
 const columns = [
-  { title: "", dataIndex: "select", width: 40 },
+  { title: "", dataIndex: "select", width: 20 },
   { title: "Phase", dataIndex: "phase", width: 80 },
   { title: "Task", dataIndex: "task", width: 100 },
   { title: "SubTask", dataIndex: "subtask", width: 150 },
@@ -347,7 +349,13 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.tasklist-body {
+  padding: 2rem;
+  background: #ffffff;
+  min-height: 80vh;
+  border-radius: 15px;
+}
 .a-table {
   th,
   td {

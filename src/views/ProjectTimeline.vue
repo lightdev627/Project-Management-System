@@ -1,5 +1,5 @@
 <template>
-  <a-card bordered style="margin-bottom: 20px; padding: 20px">
+  <a-card class="timeline-body">
     <GanttComponent
       :dataSource="data"
       :taskFields="taskFields"
@@ -164,35 +164,41 @@ const statusEditParams = {
 function queryTaskbarInfo(args) {
   switch (args.data.Status) {
     case "completed":
-      args.taskbarBgColor = "#4caf50"; // green
+      args.taskbarBgColor = "#4caf50";
       break;
     case "ontime":
-      args.taskbarBgColor = "#2196f3"; // blue
+      args.taskbarBgColor = "#2196f3";
       break;
     case "ongoing":
-      args.taskbarBgColor = "#ffeb3b"; // yellow
+      args.taskbarBgColor = "#ffeb3b";
       break;
     case "atrisk":
-      args.taskbarBgColor = "#ff9800"; // orange
+      args.taskbarBgColor = "#ff9800";
       break;
     case "delayed":
-      args.taskbarBgColor = "#f44336"; // red
+      args.taskbarBgColor = "#f44336";
       break;
     case "late":
-      args.taskbarBgColor = "#9c27b0"; // purple
+      args.taskbarBgColor = "#9c27b0";
       break;
     case "pending":
-      args.taskbarBgColor = "#607d8b"; // gray
+      args.taskbarBgColor = "#607d8b";
       break;
     case "notstarted":
-      args.taskbarBgColor = "#bdbdbd"; // light gray
+      args.taskbarBgColor = "#bdbdbd";
       break;
     default:
-      args.taskbarBgColor = "#90a4ae"; // default
+      args.taskbarBgColor = "#90a4ae";
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 @import url("https://cdn.syncfusion.com/ej2/tailwind.css");
+.timeline-body {
+  padding: 2rem;
+  background: #ffffff;
+  min-height: 80vh;
+  border-radius: 15px;
+}
 </style>

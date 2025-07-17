@@ -384,14 +384,14 @@ const keyRows = computed(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .setup-dashboard {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: stretch; /* changed from flex-start to stretch */
+  align-items: stretch;
   gap: 2rem;
-  padding: 3rem 1rem;
+  padding: 2rem;
   background: #ffffff;
   min-height: 80vh;
   border-radius: 15px;
@@ -427,7 +427,7 @@ const keyRows = computed(() => {
   margin: 0;
 }
 .dashboard-list-item {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: #334155;
   padding: 0.45rem 0.2rem;
   border-bottom: 1px dashed #e5e7eb;
@@ -609,7 +609,7 @@ const keyRows = computed(() => {
   min-width: 90px;
 }
 .key-item {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: #334155;
   padding: 0.25rem 0.2rem;
   border-bottom: 1px dashed #e5e7eb;

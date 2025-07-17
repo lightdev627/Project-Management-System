@@ -215,13 +215,13 @@ function isCurrent(label) {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .schedule-root {
   font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
   background: #ffffff;
   border-radius: 15px;
   min-height: 80vh;
-  padding: 20px;
+  padding: 2rem;
 }
 .schedule-header {
   display: flex;

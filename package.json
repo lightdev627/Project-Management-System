@@ -29,6 +29,7 @@
     "d3-transition": "^3.0.1",
     "highcharts": "^12.3.0",
     "highcharts-vue": "^2.0.1",
+    "jspdf": "^3.0.1",
     "sass": "^1.89.2",
     "vue": "3.4.0",
     "vue-router": "^4.1.6",
