@@ -47,6 +47,7 @@ export let projectNewData =  [
     },
     {
         TaskID: 5, TaskName: 'Concept approval', StartDate: new Date('04/02/2019'), Duration: 0, Predecessor: '3,4',
+        Status: 'notstarted', // Added default status
         Indicators: [
             {
                 'date': '04/10/2019',

@@ -46,7 +46,7 @@
           headerText="Start Date"
           textAlign="Right"
           format="dd-MM-yy"
-          width="120"
+          width="150"
         ></ColumnDirective>
         <ColumnDirective
           field="DeadlineDate"
@@ -55,7 +55,7 @@
           type="date"
           editType="datepickeredit"
           format="dd-MM-yy"
-          width="120"
+          width="150"
         ></ColumnDirective>
         <ColumnDirective
           field="Duration"
@@ -79,22 +79,15 @@
           field="Progress"
           headerText="Timeline Progress"
           textAlign="Left"
-          width="70"
+          width="110"
         ></ColumnDirective>
         <ColumnDirective
           field="Status"
           headerText="Status"
           textAlign="Right"
-          width="120"
+          width="150"
           editType="dropdownedit"
-          :edit="{
-            params: {
-              dataSource: statusOptions,
-              fields: { text: 'text', value: 'value' },
-              allowFiltering: true,
-              popupHeight: '200px',
-            },
-          }"
+          :edit="statusEditParams"
         />
       </ColumnsDirective>
     </GanttComponent>
@@ -152,14 +145,14 @@ const statusOptions = [
   { value: "notstarted", text: "NOT STARTED" },
 ];
 
-const statusEditParams = {
+const statusEditParams = ref({
   params: {
     dataSource: statusOptions,
     fields: { text: "text", value: "value" },
     allowFiltering: true,
     popupHeight: "200px",
   },
-};
+});
 
 function queryTaskbarInfo(args) {
   switch (args.data.Status) {

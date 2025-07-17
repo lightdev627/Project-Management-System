@@ -24,8 +24,8 @@
               :class="
                 'icon icon-tabler icons-tabler-outline' +
                 (sidebarCollapsed
-                  ? ' icon-tabler-layout-sidebar-left-collapse'
-                  : ' icon-tabler-layout-sidebar-left-expand')
+                  ? ' icon-tabler-layout-sidebar-left-expand'
+                  : ' icon-tabler-layout-sidebar-left-collapse')
               "
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -33,7 +33,8 @@
                 d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"
               />
               <path d="M9 4v16" />
-              <path d="M15 10l-2 2l2 2" />
+              <path v-if="sidebarCollapsed" d="M14 10l2 2l-2 2" />
+              <path v-else d="M15 10l-2 2l2 2" />
             </svg>
           </a-button>
         </a-col>
@@ -103,7 +104,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount, nextTick } from "vue";
 
 // Static notifications data outside props
 const defaultNotificationsData = [
@@ -159,9 +160,12 @@ const onSearch = (value) => {
   // handle search logic
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick(); // Ensure DOM is ready
   wrapper.value = document.getElementById("layout-dashboard");
   window.addEventListener("resize", resizeEventHandler);
+  // Force recalculation after mount
+  resizeEventHandler();
 });
 
 onBeforeUnmount(() => {
