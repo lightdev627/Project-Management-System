@@ -8,20 +8,43 @@
     >
       <div class="dashboard-header">{{ column.title }}</div>
       <ul v-if="column.title !== 'KEY'" class="dashboard-list">
-        <li v-for="(item, i) in column.items" :key="i" class="dashboard-list-item">
+        <li
+          v-for="(item, i) in column.items"
+          :key="i"
+          class="dashboard-list-item"
+        >
           <span>{{ item }}</span>
           <div class="delete-area">
-            <template v-if="confirmDelete && confirmDelete.col === colIdx && confirmDelete.idx === i">
+            <template
+              v-if="
+                confirmDelete &&
+                confirmDelete.col === colIdx &&
+                confirmDelete.idx === i
+              "
+            >
               <span class="popconfirm">
                 <span class="popconfirm-text">Are you sure?</span>
                 <span class="popconfirm-btn-row">
-                  <button class="popconfirm-btn yes" @click="confirmDeleteItem(colIdx, i)">Yes</button>
-                  <button class="popconfirm-btn no" @click="cancelDelete">No</button>
+                  <button
+                    class="popconfirm-btn yes"
+                    @click="confirmDeleteItem(colIdx, i)"
+                  >
+                    Yes
+                  </button>
+                  <button class="popconfirm-btn no" @click="cancelDelete">
+                    No
+                  </button>
                 </span>
               </span>
             </template>
             <template v-else>
-              <button class="delete-btn" @click="showDeleteConfirm(colIdx, i)" title="Delete">❌</button>
+              <button
+                class="delete-btn"
+                @click="showDeleteConfirm(colIdx, i)"
+                title="Delete"
+              >
+                ❌
+              </button>
             </template>
           </div>
         </li>
@@ -37,37 +60,64 @@
               autofocus
             />
             <div class="inline-buttons">
-              <button class="inline-confirm-btn" @click="addItem(colIdx)">Add</button>
-              <button class="inline-cancel-btn" @click="cancelAdd(colIdx)">Cancel</button>
+              <button class="inline-confirm-btn" @click="addItem(colIdx)">
+                Add
+              </button>
+              <button class="inline-cancel-btn" @click="cancelAdd(colIdx)">
+                Cancel
+              </button>
             </div>
           </div>
         </li>
       </ul>
       <!-- Special two-column layout for KEY card -->
       <div v-else class="dashboard-list key-list">
-        <div v-for="(row, rowIdx) in keyRows" :key="'row-' + rowIdx" class="key-row">
+        <div
+          v-for="(row, rowIdx) in keyRows"
+          :key="'row-' + rowIdx"
+          class="key-row"
+        >
           <div class="key-col">
             <div class="key-item">
-              <span>{{ row.left || '' }}</span>
+              <span>{{ row.left || "" }}</span>
             </div>
           </div>
           <div class="key-col">
             <div class="key-item">
-              <span>{{ row.right || '' }}</span>
+              <span>{{ row.right || "" }}</span>
             </div>
           </div>
           <div class="delete-area">
-            <template v-if="confirmDelete && confirmDelete.col === colIdx && confirmDelete.idx === rowIdx">
+            <template
+              v-if="
+                confirmDelete &&
+                confirmDelete.col === colIdx &&
+                confirmDelete.idx === rowIdx
+              "
+            >
               <span class="popconfirm">
                 <span class="popconfirm-text">Are you sure?</span>
                 <span class="popconfirm-btn-row">
-                  <button class="popconfirm-btn yes" @click="confirmDeleteKeyRow(rowIdx)">Yes</button>
-                  <button class="popconfirm-btn no" @click="cancelDelete">No</button>
+                  <button
+                    class="popconfirm-btn yes"
+                    @click="confirmDeleteKeyRow(rowIdx)"
+                  >
+                    Yes
+                  </button>
+                  <button class="popconfirm-btn no" @click="cancelDelete">
+                    No
+                  </button>
                 </span>
               </span>
             </template>
             <template v-else>
-              <button class="delete-btn" @click="showDeleteKeyRowConfirm(colIdx, rowIdx)" title="Delete">❌</button>
+              <button
+                class="delete-btn"
+                @click="showDeleteKeyRowConfirm(colIdx, rowIdx)"
+                title="Delete"
+              >
+                ❌
+              </button>
             </template>
           </div>
         </div>
@@ -95,7 +145,9 @@
             </div>
             <div class="inline-buttons">
               <button class="inline-confirm-btn" @click="addKeyRow">Add</button>
-              <button class="inline-cancel-btn" @click="cancelAdd(colIdx)">Cancel</button>
+              <button class="inline-cancel-btn" @click="cancelAdd(colIdx)">
+                Cancel
+              </button>
             </div>
           </div>
         </div>
@@ -111,138 +163,129 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 
 const columns = ref([
   {
-    title: 'Stages',
+    title: "Stages",
     items: [
-      'Planning',
-      'BCAC_Phase_1',
-      'BCAC_Phase_2',
-      'Procurement',
-      'BCAC_Phase_3',
-      'Development',
-      'Deployment',
-      'BCAC_Phase_4',
-      'Sustainment',
-      'BCAC_Phase_5',
-      'Decommissioning',
+      "Planning",
+      "BCAC_Phase_1",
+      "BCAC_Phase_2",
+      "Procurement",
+      "BCAC_Phase_3",
+      "Development",
+      "Deployment",
+      "BCAC_Phase_4",
+      "Sustainment",
+      "BCAC_Phase_5",
+      "Decommissioning",
     ],
   },
   {
-    title: 'PROJECTS MEMBERS',
+    title: "PROJECTS MEMBERS",
     items: [
-      'Norman Whitehead',
-      'Bob Dasika',
-      'Jaydeep Patel',
-      'Gale Wallace',
-      'Ricardo James',
-      'Shilpa Vadlamudi',
-      'Tommeka Johnson',
+      "Norman Whitehead",
+      "Bob Dasika",
+      "Jaydeep Patel",
+      "Gale Wallace",
+      "Ricardo James",
+      "Shilpa Vadlamudi",
+      "Tommeka Johnson",
     ],
   },
   {
-    title: 'STATUS',
+    title: "STATUS",
     items: [
-      'ON TIME',
-      'COMPLETED',
-      'ON GOING',
-      'AT RISK',
-      'DELAYED',
-      'LATE',
-      'PENDING',
-      'NOT STARTED',
+      "ON TIME",
+      "COMPLETED",
+      "ON GOING",
+      "AT RISK",
+      "DELAYED",
+      "LATE",
+      "PENDING",
+      "NOT STARTED",
     ],
   },
   {
-    title: 'KEY',
+    title: "KEY",
     items: [
-      'New Task',
-      'In Progress Task',
-      'Done',
-      'Deadline',
-      'Event',
-      'Meeting',
-      'Cancelled',
-      'Migrated',
-      'Finance',
-      'Human Resources',
-      'Operations',
-      'Logistics',
-      'IT',
-      'Strategy and Planning',
-      'Sales',
-      'Marketing',
+      "New Task",
+      "In Progress Task",
+      "Done",
+      "Deadline",
+      "Event",
+      "Meeting",
+      "Cancelled",
+      "Migrated",
+      "Finance",
+      "Human Resources",
+      "Operations",
+      "Logistics",
+      "IT",
+      "Strategy and Planning",
+      "Sales",
+      "Marketing",
     ],
   },
   {
-    title: 'MONTHS',
+    title: "MONTHS",
     items: [
-      'JANUARY',
-      'FEBRUARY',
-      'MARCH',
-      'APRIL',
-      'MAY',
-      'JUNE',
-      'JULY',
-      'AUGUST',
-      'SEPTEMBER',
-      'OCTOBER',
-      'NOVEMBER',
-      'DECEMBER',
+      "JANUARY",
+      "FEBRUARY",
+      "MARCH",
+      "APRIL",
+      "MAY",
+      "JUNE",
+      "JULY",
+      "AUGUST",
+      "SEPTEMBER",
+      "OCTOBER",
+      "NOVEMBER",
+      "DECEMBER",
     ],
   },
   {
-    title: 'YEARS',
-    items: [
-      '2025',
-      '2026',
-      '2027',
-      '2028',
-      '2029',
-      '2030',
-      '2031',
-      '2032',
-    ],
+    title: "YEARS",
+    items: ["2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032"],
   },
   {
-    title: 'NOTES TYPE',
+    title: "NOTES TYPE",
     items: [
-      'From Client Meeting',
-      'From Team Meeting',
-      'Reminders',
-      'Minutes of the Meeting',
-      'Personal',
-      'Brain Dump',
-      'Ideas',
+      "From Client Meeting",
+      "From Team Meeting",
+      "Reminders",
+      "Minutes of the Meeting",
+      "Personal",
+      "Brain Dump",
+      "Ideas",
     ],
   },
 ]);
 
-const newItems = ref(Array(columns.value.length).fill(''));
+const newItems = ref(Array(columns.value.length).fill(""));
 const showAddInput = ref(Array(columns.value.length).fill(false));
 const confirmDelete = ref(null); // { col: colIdx, idx: itemIdx }
 
 // For KEY card add
-const newKeyCol1 = ref('');
-const newKeyCol2 = ref('');
+const newKeyCol1 = ref("");
+const newKeyCol2 = ref("");
 
 function showAdd(colIdx) {
   showAddInput.value = showAddInput.value.map((v, i) => i === colIdx);
-  newItems.value[colIdx] = '';
-  if (columns.value[colIdx].title === 'KEY') {
-    newKeyCol1.value = '';
-    newKeyCol2.value = '';
+  newItems.value[colIdx] = "";
+  if (columns.value[colIdx].title === "KEY") {
+    newKeyCol1.value = "";
+    newKeyCol2.value = "";
   }
 }
 
 function cancelAdd(colIdx) {
   showAddInput.value[colIdx] = false;
-  newItems.value[colIdx] = '';
-  if (columns.value[colIdx].title === 'KEY') {
-    newKeyCol1.value = '';
-    newKeyCol2.value = '';
+  newItems.value[colIdx] = "";
+  if (columns.value[colIdx].title === "KEY") {
+    newKeyCol1.value = "";
+    newKeyCol2.value = "";
   }
 }
 
@@ -250,22 +293,22 @@ function addItem(colIdx) {
   const value = newItems.value[colIdx]?.trim();
   if (value) {
     columns.value[colIdx].items.push(value);
-    newItems.value[colIdx] = '';
+    newItems.value[colIdx] = "";
     showAddInput.value[colIdx] = false;
   }
 }
 
 // For KEY card: add as one row
 function addKeyRow() {
-  const keyCol = columns.value.find(c => c.title === 'KEY');
+  const keyCol = columns.value.find((c) => c.title === "KEY");
   if (!keyCol) return;
   const val1 = newKeyCol1.value.trim();
   const val2 = newKeyCol2.value.trim();
   if (val1) keyCol.items.push(val1);
   if (val2) keyCol.items.push(val2);
-  newKeyCol1.value = '';
-  newKeyCol2.value = '';
-  const keyIdx = columns.value.findIndex(c => c.title === 'KEY');
+  newKeyCol1.value = "";
+  newKeyCol2.value = "";
+  const keyIdx = columns.value.findIndex((c) => c.title === "KEY");
   showAddInput.value[keyIdx] = false;
 }
 
@@ -288,7 +331,7 @@ function showDeleteKeyRowConfirm(colIdx, rowIdx) {
 }
 
 function confirmDeleteKeyRow(rowIdx) {
-  const keyColObj = columns.value.find(c => c.title === 'KEY');
+  const keyColObj = columns.value.find((c) => c.title === "KEY");
   if (!keyColObj) return;
   const half = Math.ceil(keyColObj.items.length / 2);
   // Remove both items from the row
@@ -307,20 +350,24 @@ function confirmDeleteKeyRow(rowIdx) {
 }
 
 function handleClickOutside(event) {
-  if (!event.target.closest('.delete-area') && !event.target.closest('.add-item') && !event.target.closest('.add-key-row')) {
+  if (
+    !event.target.closest(".delete-area") &&
+    !event.target.closest(".add-item") &&
+    !event.target.closest(".add-key-row")
+  ) {
     confirmDelete.value = null;
   }
 }
 onMounted(() => {
-  document.addEventListener('mousedown', handleClickOutside);
+  document.addEventListener("mousedown", handleClickOutside);
 });
 onBeforeUnmount(() => {
-  document.removeEventListener('mousedown', handleClickOutside);
+  document.removeEventListener("mousedown", handleClickOutside);
 });
 
 // For KEY card: create rows from items
 const keyRows = computed(() => {
-  const keyCol = columns.value.find(c => c.title === 'KEY');
+  const keyCol = columns.value.find((c) => c.title === "KEY");
   if (!keyCol) return [];
   const half = Math.ceil(keyCol.items.length / 2);
   const leftItems = keyCol.items.slice(0, half);
@@ -329,8 +376,8 @@ const keyRows = computed(() => {
   const rows = [];
   for (let i = 0; i < maxRows; i++) {
     rows.push({
-      left: leftItems[i] || '',
-      right: rightItems[i] || ''
+      left: leftItems[i] || "",
+      right: rightItems[i] || "",
     });
   }
   return rows;
@@ -352,7 +399,8 @@ const keyRows = computed(() => {
 .dashboard-column {
   background: #fff;
   border-radius: 1.2rem;
-  box-shadow: 0 2px 10px 0 rgba(80, 112, 255, 0.10), 0 1.5px 4px 0 rgba(0,0,0,0.04);
+  box-shadow: 0 2px 10px 0 rgba(80, 112, 255, 0.1),
+    0 1.5px 4px 0 rgba(0, 0, 0, 0.04);
   min-width: 170px;
   max-width: 280px;
   padding: 1.5rem 0.5rem 1rem 0.5rem;
@@ -419,7 +467,7 @@ const keyRows = computed(() => {
   background: #fff;
   border: 1px solid #e0e7ff;
   border-radius: 0.5rem;
-  box-shadow: 0 2px 8px 0 rgba(80, 112, 255, 0.10);
+  box-shadow: 0 2px 8px 0 rgba(80, 112, 255, 0.1);
   padding: 0.3rem 0.7rem;
   font-size: 0.7rem;
   color: #334155;
