@@ -14,8 +14,8 @@
 
 <script setup>
 import { reactive, ref } from "vue";
-import SunburstChart from "@/components/Charts/Sunburst.vue";
-import { sunburstData } from "@/assets/sunburst_data.js";
+import SunburstChart from "../Charts/Sunburst.vue";
+import { sunburstData } from "../../assets/data/sunburst_data.js";
 
 const data = reactive(sunburstData);
 const isFullscreen = ref(false);
@@ -51,7 +51,7 @@ function toggleFullscreen() {
 }
 .sunburst-card.fullscreen {
   position: fixed !important;
-  top: 0;
+  top: 50px;
   left: 0;
   width: 100vw;
   height: 100vh;
@@ -67,9 +67,9 @@ function toggleFullscreen() {
   box-sizing: border-box;
 }
 .fullscreen-chart {
-  width: 55vw !important;
-  height: 55vh !important;
-  max-width: 740px;
-  max-height: calc(70vh - 48px);
+  width: 35vw !important;
+  height: 35vh !important;
+  max-width: 650px;
+  max-height: calc(65vh - 48px);
 }
 </style>

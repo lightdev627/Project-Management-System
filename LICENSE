@@ -1,21 +1,24 @@
-MIT License
+Restricted Private License
 
-Copyright (c) 2021 Creative Tim
+Version 1.0, [19 - 05 -2023]
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. Authorization to Use and Modify:
+   Subject to the terms and conditions of this license, the author and authorized personnel hereby grant you a personal, non-transferable, non-exclusive authorization to use and modify the source code solely for your own personal use and internal purposes.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+2. Restrictions:
+   a. You shall not distribute, replicate, or sublicense the source code or any modifications thereof, in whole or in part, to any third party without prior written consent from the author or authorized personnel.
+   b. You shall not use the source code or any modifications thereof to create derivative works, products, or services for commercial purposes.
+   c. You shall not disclose, publish, or otherwise make available the source code or any modifications thereof to the public or any unauthorized individuals or entities.
+   d. You shall not remove or modify any copyright notices, proprietary markings, or other legal notices from the source code.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+3. Intellectual Property Rights:
+   This license does not transfer any ownership or intellectual property rights to you. The author and authorized personnel retain all rights, title, and interest in and to the source code, including any improvements, modifications, or derivative works thereof.
+
+4. Termination:
+   This license is effective until terminated. The author and authorized personnel reserve the right to terminate this license at any time if you fail to comply with any of the terms and conditions herein. Upon termination, you must immediately cease all use and modification of the source code.
+
+5. Disclaimer of Warranty:
+   The source code is provided "as is," without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement. The author and authorized personnel shall not be liable for any damages, whether direct, indirect, incidental, or consequential, arising out of the use or inability to use the source code.
+
+6. Governing Law and Jurisdiction:
+   This license shall be governed by and construed in accordance with the laws of [Jurisdiction]. Any disputes arising out of or in connection with this license shall be submitted to the exclusive jurisdiction of the courts of [Jurisdiction].

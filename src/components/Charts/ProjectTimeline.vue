@@ -30,6 +30,7 @@ import {
   ColumnSeries,
   Category,
   Tooltip,
+  Legend
 } from "@syncfusion/ej2-vue-charts";
 
 const seriesData = [
@@ -53,13 +54,13 @@ const primaryYAxis = {
 
 const title = "PROJECT TIMELINE PROGRESS %";
 
-provide("chart", [ColumnSeries, Category, Tooltip]);
+provide("chart", [ColumnSeries, Category, Tooltip, Legend]);
 </script>
 
 <style scoped>
 .chart-container {
   width: 100%;
-  min-width: 450px;
+  min-width: 90%;
   height: 400px;
 }
 

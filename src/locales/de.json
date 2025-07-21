@@ -1,0 +1,213 @@
+{
+  "info": {
+    "language": {
+      "name": "Deutsch",
+      "lang": "de",
+      "flag": "de"
+    },
+    "platform": {
+      "name": "IDI",
+      "lastName": "Forschungs-, Entwicklungs- und Innovationsplattform",
+      "slogan": "Mit ❤️ und 🧠 für eine bessere Zukunft gemacht",
+      "keywords": ["Forschungsplattform", "Entwicklung und Innovation", "IDI", "Wissenschaftliche Forschung", "Projektentwicklung", "Technologische Innovation", "Projektmanagement", "Reibungsloser Arbeitsablauf", "Effizienz in der Forschung", "Zusammenarbeit in der Forschung", "Formulierung von Forschungsprojekten", "Forschungsmethoden", "Aufgabenmanagement", "Forschungspläne", "Wissenschaftliche Artikel", "Vorlagen für wissenschaftliche Artikel", "Überprüfung wissenschaftlicher Artikel", "Technologiebereitschaftsstufe (TRL)", "Technologiereifegrad", "Bewertung des Technologiefortschritts", "Marktfähigkeit"],
+      "description": "Die Forschungs-, Entwicklungs- und Innovationsplattform (IDI) ist ein vielseitiges Werkzeug, das wissenschaftliche Forschung, Projektentwicklung und technologische Innovation unterstützt. Mit Funktionen wie Projektformulierung, Aufgabenmanagement, Erstellung wissenschaftlicher Artikel und Messung der technologischen Reife bietet IDI einen effizienten und kollaborativen Arbeitsablauf für Forscherinnen und Forscher, der die Produktivität und den Erfolg ihrer Projekte steigert."
+    }
+  },
+  "inputs": {
+    "user": {
+      "label": "Benutzer",
+      "code": {
+        "label": "Benutzeridentifikationscode",
+        "tooltip": "Dieser Code ist unveränderlich.",
+        "hint": "Dies ist ein Code, der von der Plattform bereitgestellt wird.",
+        "error": "Es liegt ein Fehler mit dem Code vor."
+      },
+      "name": {
+        "label": "Vorname",
+        "tooltip": "Geben Sie hier den Vornamen des Benutzers ein, ohne den Nachnamen.",
+        "hint": "Geben Sie den Vornamen des Benutzers ein, ohne den Nachnamen.",
+        "error": "Geben Sie einen gültigen Namen ein."
+      },
+      "lastName": {
+        "label": "Nachname",
+        "tooltip": "Geben Sie hier den Nachnamen des Benutzers ein, ohne den Vornamen.",
+        "hint": "Geben Sie den Nachnamen des Benutzers ein, ohne den Vornamen.",
+        "error": "Geben Sie einen gültigen Nachnamen ein."
+      },
+      "gender": {
+        "label": "Biologisches Geschlecht",
+        "tooltip": "Wähle dein biologisches Geschlecht oder das Geschlecht, mit dem du dich derzeit identifizierst.",
+        "hint": "Die verfügbaren Optionen sind 'Männlich' und 'Weiblich', da dieses Feld auf dem biologischen Geschlecht basiert, mit dem eine Person geboren wurde oder sich derzeit sexuell identifiziert.",
+        "options": ["Männlich", "Weiblich"],
+        "error": "Gib ein gültiges biologisches Geschlecht ein."
+      },
+      "birthday": {
+        "label": "Geburtsdatum",
+        "tooltip": "Bitte geben Sie Ihr Geburtsdatum ein.",
+        "hint": "Geben Sie Ihr Geburtsdatum im Format JJJJ/MM/TT ein. Sie müssen mindestens 10 Jahre alt sein, um sich auf der Plattform registrieren zu können.",
+        "error": "Geben Sie ein gültiges Geburtsdatum ein."
+      },
+      "email": {
+        "label": "E-Mail",
+        "tooltip": "Geben Sie eine gültige E-Mail-Adresse ein. Die E-Mail-Adresse muss in der Liste der gültigen E-Mails enthalten sein.",
+        "hint": "Stellen Sie sicher, dass Sie eine gültige E-Mail-Adresse eingeben. In der Regel handelt es sich um institutionelle E-Mails.",
+        "error": "Geben Sie eine gültige E-Mail-Adresse ein."
+      },
+      "phone": {
+        "label": "Telefon",
+        "tooltip": "Geben Sie Ihre Telefonnummer ein.",
+        "hint": "Beispiel: (+57) 311 234 5647",
+        "error": "Geben Sie eine gültige Kontaktnummer ein."
+      },
+      "password": {
+        "label": "Passwort",
+        "tooltip": "Geben Sie ein sicheres Passwort mit mindestens 8 Zeichen ein.",
+        "hint": "Geben Sie ein Passwort mit mindestens 8 Zeichen ein.",
+        "error": "Das Passwort ist ungültig oder zu schwach."
+      },
+      "confirm": {
+        "label": "Passwort bestätigen",
+        "tooltip": "Stellen Sie sicher, dass das Passwort exakt übereinstimmt.",
+        "hint": "Bestätigen Sie das Passwort, um Sicherheitsprobleme zu vermeiden.",
+        "error": "Die Passwörter stimmen nicht überein."
+      },
+      "confirmed": {
+        "label": "Bestätigt am...",
+        "hint": "Datum und Uhrzeit der Benutzerbestätigung."
+      },
+      "created": {
+        "label": "Erstellt am...",
+        "hint": "Datum und Uhrzeit der Benutzererstellung."
+      },
+      "updated": {
+        "label": "Aktualisiert am...",
+        "hint": "Datum und Uhrzeit des letzten Updates der Benutzerinformationen."
+      },
+      "deleted": {
+        "label": "Deaktiviert am...",
+        "hint": "Datum und Uhrzeit der Benutzerdeaktivierung. Wenn es nicht im vereinbarten Format ist, bedeutet dies, dass der Benutzer aktiv ist."
+      }
+    },
+    "institution": {
+      "label": "Plattform",
+      "code": {
+        "label": "Institutionsidentifikationscode",
+        "tooltip": "Dieser Code ist unveränderlich.",
+        "hint": "Dies ist ein Code, der von der Plattform bereitgestellt wird.",
+        "error": "Es liegt ein Fehler mit dem Code vor."
+      },
+      "name": {
+        "label": "Institutionsname",
+        "tooltip": "Geben Sie den Namen der Institution ohne ihre Geschäftsart ein.",
+        "hint": "Geben Sie den Namen der Institution ein.",
+        "error": "Geben Sie einen gültigen Namen ein."
+      },
+      "link": {
+        "label": "Plattform-Link",
+        "tooltip": "Geben Sie den Link zur Plattform der Institution auf der Homepage ein.",
+        "hint": "Geben Sie den Link zur Plattform der Institution ein.",
+        "error": "Geben Sie einen gültigen Link ein."
+      },
+      "type": {
+        "label": "Institutionstyp",
+        "tooltip": "Geben Sie den Institutionstyp ein, zum Beispiel: Universität, Verein, Stiftung, etc.",
+        "hint": "Geben Sie den Institutionstyp ein.",
+        "error": "Geben Sie einen gültigen Institutionstyp ein."
+      },
+      "created": {
+        "label": "Erstellt am...",
+        "hint": "Datum und Uhrzeit der Institutionserstellung."
+      },
+      "updated": {
+        "label": "Aktualisiert am...",
+        "hint": "Datum und Uhrzeit des letzten Updates der Institutsinformationen."
+      },
+      "deleted": {
+        "label": "Deaktiviert am...",
+        "hint": "Datum und Uhrzeit der Institutsdeaktivierung. Wenn es nicht im vereinbarten Format ist, bedeutet dies, dass die Institution aktiv ist."
+      }
+    }
+  },
+  "links": {
+    "home": {
+      "noSession": {
+        "label": "Startseite",
+        "path": "/"
+      },
+      "session": {
+        "label": "Startseite",
+        "path": "/startseite"
+      },
+      "back": "Zurück zur Startseite"
+    },
+    "signup": {
+      "label": {
+        "principal": "Registrieren!",
+        "alternative": "Sie haben noch kein Konto? Klicken Sie hier, um sich zu registrieren!",
+        "title": "Benutzerregistrierung bei IDI",
+        "description": "Treten Sie unserer Gemeinschaft von Forschern, Entwicklern und Innovatoren bei! Registrieren Sie sich auf unserer Plattform, um auf Ressourcen und Werkzeuge zuzugreifen, die Ihre Projekte unterstützen und zum Fortschritt von Wissenschaft und Technologie beitragen. Als Benutzer können Sie mehreren Standorten und Institutionen angehören, aber wir bitten Sie, sich mit derjenigen Institution zu registrieren, mit der Sie sich am stärksten verbunden fühlen. Zur Gewährleistung der Echtheit und Sicherheit der Plattform wird die Validierung Ihrer E-Mail-Adresse erforderlich sein, insbesondere wenn Sie eine Institution auswählen. Treten Sie jetzt bei und werden Sie Teil unserer Gemeinschaft der Zusammenarbeit und des Wachstums in Forschung, Entwicklung und Innovation!"
+      },
+      "path": "/registrieren",
+      "options": ["Benutzer", "Institution"]
+    },
+    "login": {
+      "label": {
+        "principal": "Einloggen",
+        "alternative": "Wenn Sie bereits ein Konto haben, loggen Sie sich hier ein."
+      },
+      "path": "/einloggen",
+      "options": ["Benutzer", "Institution"]
+    },
+    "recover": {
+      "label": {
+        "principal": "Passwort vergessen? Klicken Sie hier, um es wiederherzustellen",
+        "alternative": "Passwort vergessen?"
+      },
+      "path": "/passwort-wiederherstellen",
+      "title": "Passwort wiederherstellen!",
+      "description": "Hallo! Hier ist die Passwort-Wiederherstellungsseite, Ihr zuverlässiger Begleiter, wenn Sie wieder Zugriff auf Ihr Konto benötigen. Dieser Abschnitt hilft Ihnen dabei, Ihr Passwort zurückzusetzen und ein neues zu erstellen, wie ein virtueller Schlosser, der Ihnen einen neuen Schlüssel zur Eingabe bereitstellt. Sie müssen lediglich Ihre Identität bestätigen, indem Sie zusätzliche persönliche Informationen wie Ihre registrierte E-Mail-Adresse oder Antworten auf Sicherheitsfragen angeben. Sobald Sie verifiziert wurden, führt Sie die Seite durch den Prozess der Erstellung eines neuen Passworts und stellt sicher, dass Sie es korrekt bestätigen. Denken Sie daran, es verantwortungsbewusst zu verwenden und bewährte Sicherheitspraktiken zu befolgen. Keine Panik, mit ein paar einfachen Schritten haben Sie in kürzester Zeit wieder Zugriff auf Ihr Konto!"
+    }
+  },
+  "options": {
+    "changeLanguage": "Sprache ändern"
+  },
+  "footer": {
+    "privacy": "Datenschutz",
+    "terms": "Bedingungen",
+    "siteMap": "Seitenverzeichnis",
+    "companyData": "Firmendaten",
+    "assitanceResources": "Unterstützung und Ressourcen",
+    "assitance": {
+      "label": "Unterstützung",
+      "links": {
+        "helpCenter": "Hilfe-Center",
+        "discapacity": "Unterstützung für Menschen mit Behinderungen",
+        "cancel": "Stornierungsoptionen",
+        "fraud": "Betrug melden"
+      }
+    },
+    "community": {
+      "label": "Gemeinschaft",
+      "links": {
+        "blog": "Blog",
+        "divulgation": "Veröffentlichung",
+        "figth": "Unser Kampf gegen Diskriminierung"
+      }
+    },
+    "aboutPlatform": {
+      "label": "Über die Plattform",
+      "links": {
+        "mission": "Mission",
+        "vission": "Vision"
+      }
+    },
+    "idi": {
+      "label": "IDI",
+      "links": {
+        "aboutUs": "Über uns",
+        "trayectory": "Werdegang",
+        "team": "Team"
+      }
+    }
+  }
+}

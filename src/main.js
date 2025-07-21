@@ -1,35 +1,47 @@
+import { loadAccessToken, loadRequestDigest } from "./utils/axiosRequest.js";
+
+try {
+  await loadAccessToken();
+  await loadRequestDigest();
+} catch (err) {
+  console.log(err)
+  document.write(`<h1>😕 Ooops! <i style="font-size: 20px;">${err}</i></h1>`);
+  window.stop();
+}
+
 import { createApp } from 'vue'
-import Antd from 'ant-design-vue';
-import 'ant-design-vue/dist/antd.css';
-import App from './App.vue'
-import DefaultLayout from './layouts/Default.vue'
-import DashboardLayout from './layouts/Dashboard.vue'
-import router from './router'
+import { Quasar, Notify } from 'quasar'
+import quasarLang from 'quasar/lang/en-US'
+import router from './routes/router.js'
+import { createPinia } from 'pinia'
 import {registerLicense} from '@syncfusion/ej2-base';
-import {
-  GanttPlugin,
-  Toolbar,
-  Edit,
-  Selection,
-  DayMarkers
-} from '@syncfusion/ej2-vue-gantt'
-import HighchartsVue from 'highcharts-vue'
-import { Gantt } from '@syncfusion/ej2-gantt'
 
-import './scss/app.scss';
+// Import icon libraries
+import '@quasar/extras/material-icons/material-icons.css'
+import '@quasar/extras/material-icons-outlined/material-icons-outlined.css'
+import '@quasar/extras/material-icons-round/material-icons-round.css'
+import '@quasar/extras/material-icons-sharp/material-icons-sharp.css'
 
-const app = createApp(App);
+// A few examples for animations from Animate.css:
+import '@quasar/extras/animate/fadeIn.css'
+import '@quasar/extras/animate/fadeOut.css'
 
-// Register global components
-app.component('layout-default', DefaultLayout)
-app.component('layout-dashboard', DashboardLayout)
+// Import Quasar css
+import 'quasar/src/css/index.sass'
 
-// Use plugins
-app.use(Antd)
-app.use(GanttPlugin)
-app.use(HighchartsVue)
-Gantt.Inject(Toolbar, Edit, Selection, DayMarkers)
+import './assets/styles/css/styles.css'
 
-app.use(router)
-app.mount('#app')
+
+import App from './App.vue'
+
+createApp(App)
+.use(createPinia())
+.use(Quasar, {
+  plugins: {
+    Notify
+  },
+  lang: quasarLang,
+})
+.use(router)
+.mount('#app')
 registerLicense("ORg4AjUWIQA/Gnt3VVhhQlJDfVddXGBWfFN0QHNYf1R0c19HZEwgOX1dQl9mSXlSckRiWH9ed3FcQ2dXUkQ=")

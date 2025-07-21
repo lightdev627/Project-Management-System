@@ -1,0 +1,213 @@
+{
+  "info": {
+    "language": {
+      "name": "Italiano",
+      "lang": "it",
+      "flag": "it"
+    },
+    "platform": {
+      "name": "IDI",
+      "lastName": "Piattaforma di Ricerca, Sviluppo e Innovazione",
+      "slogan": "Realizzato con ❤️ e 🧠 per un futuro migliore",
+      "keywords": ["Piattaforma di Ricerca", "Sviluppo e Innovazione", "IDI", "Ricerca Scientifica", "Sviluppo Progetti", "Innovazione Tecnologica", "Gestione Progetti", "Flusso di Lavoro Semplice", "Efficienza nella Ricerca", "Collaborazione nella Ricerca", "Formulazione Progetto di Ricerca", "Metodologie di Ricerca", "Gestione Compiti", "Pianificazione Ricerche", "Articoli Scientifici", "Modelli di Articoli Scientifici", "Revisione Articoli Scientifici", "Livello di Prontezza Tecnologica (TRL)", "Livello di Maturità Tecnologica", "Valutazione Progresso Tecnologico", "Sostenibilità di Mercato"],
+      "description": "La Piattaforma di Ricerca, Sviluppo e Innovazione (IDI) è uno strumento versatile che supporta la ricerca scientifica, lo sviluppo di progetti e l'innovazione tecnologica. Con funzionalità come la formulazione del progetto, la gestione dei compiti, la creazione di articoli scientifici e la valutazione della maturità tecnologica, IDI offre un flusso di lavoro efficiente e collaborativo per ricercatori e scienziati, migliorando la produttività e il successo dei loro progetti."
+    }
+  },
+  "inputs": {
+    "user": {
+      "label": "Utente",
+      "code": {
+        "label": "Codice di identificazione utente",
+        "tooltip": "Questo codice è immutabile.",
+        "hint": "Questo è un codice fornito dalla piattaforma.",
+        "error": "C'è un errore con il codice."
+      },
+      "name": {
+        "label": "Nome completo",
+        "tooltip": "Inserisci qui il nome (senza includere il cognome) dell'utente.",
+        "hint": "Inserisci il nome (senza includere il cognome) dell'utente.",
+        "error": "Inserisci un nome valido."
+      },
+      "lastName": {
+        "label": "Cognome completo",
+        "tooltip": "Inserisci qui il cognome (senza includere il nome) dell'utente.",
+        "hint": "Inserisci il cognome (senza includere il nome) dell'utente.",
+        "error": "Inserisci un cognome valido."
+      },
+      "gender": {
+        "label": "Sesso biologico",
+        "tooltip": "Seleziona il tuo sesso biologico o l'identità di genere con cui ti identifichi attualmente.",
+        "hint": "Le opzioni disponibili sono 'Maschio' e 'Femmina' poiché questo campo si basa sul sesso biologico con cui una persona è nata o si identifica attualmente sessualmente.",
+        "options": ["Maschio", "Femmina"],
+        "error": "Inserisci un sesso biologico valido."
+      },
+      "birthday": {
+        "label": "Data di nascita",
+        "tooltip": "Inserisci la tua data di nascita.",
+        "hint": "Inserisci la tua data di nascita nel formato AAAA/MM/GG. Devi avere almeno 10 anni per registrarti sulla piattaforma.",
+        "error": "Inserisci una data di nascita valida."
+      },
+      "email": {
+        "label": "Email",
+        "tooltip": "Inserisci un indirizzo email valido. L'email deve essere nella lista degli indirizzi email validi.",
+        "hint": "Assicurati di inserire un indirizzo email valido. Generalmente, sono email istituzionali.",
+        "error": "Inserisci un indirizzo email valido."
+      },
+      "phone": {
+        "label": "Telefono",
+        "tooltip": "Inserisci il tuo numero di telefono.",
+        "hint": "Esempio: (+57) 311 234 5647",
+        "error": "Inserisci un numero di contatto valido."
+      },
+      "password": {
+        "label": "Password",
+        "tooltip": "Inserisci una password sicura di almeno 8 caratteri.",
+        "hint": "Inserisci una password di almeno 8 caratteri.",
+        "error": "La password non è valida o troppo debole."
+      },
+      "confirm": {
+        "label": "Conferma password",
+        "tooltip": "Assicurati che la password corrisponda esattamente.",
+        "hint": "Conferma la password per evitare problemi di sicurezza.",
+        "error": "Le password non corrispondono."
+      },
+      "confirmed": {
+        "label": "Confermato il...",
+        "hint": "Data e ora di conferma dell'utente."
+      },
+      "created": {
+        "label": "Creato il...",
+        "hint": "Data e ora di creazione dell'utente."
+      },
+      "updated": {
+        "label": "Aggiornato il...",
+        "hint": "Data e ora dell'ultimo aggiornamento delle informazioni dell'utente."
+      },
+      "deleted": {
+        "label": "Disattivato il...",
+        "hint": "Data e ora di disattivazione dell'utente. Se non è nel formato concordato, significa che l'utente è attivo."
+      }
+    },
+    "institution": {
+      "label": "Piattaforma",
+      "code": {
+        "label": "Codice di identificazione istituzione",
+        "tooltip": "Questo codice è immutabile.",
+        "hint": "Questo è un codice fornito dalla piattaforma.",
+        "error": "C'è un errore con il codice."
+      },
+      "name": {
+        "label": "Nome dell'istituzione",
+        "tooltip": "Inserisci il nome dell'istituzione senza includere il tipo di attività.",
+        "hint": "Inserisci il nome dell'istituzione.",
+        "error": "Inserisci un nome valido."
+      },
+      "link": {
+        "label": "Link della piattaforma",
+        "tooltip": "Inserisci il link alla piattaforma dell'istituzione, sulla homepage.",
+        "hint": "Inserisci il link alla piattaforma dell'istituzione.",
+        "error": "Inserisci un link valido."
+      },
+      "type": {
+        "label": "Tipo di istituzione",
+        "tooltip": "Inserisci il tipo di istituzione, ad esempio: Università, Associazione, Fondazione, ecc.",
+        "hint": "Inserisci il tipo di istituzione.",
+        "error": "Inserisci un tipo di istituzione valido."
+      },
+      "created": {
+        "label": "Creato il...",
+        "hint": "Data e ora di creazione dell'istituzione."
+      },
+      "updated": {
+        "label": "Aggiornato il...",
+        "hint": "Data e ora dell'ultimo aggiornamento delle informazioni dell'istituzione."
+      },
+      "deleted": {
+        "label": "Disattivato il...",
+        "hint": "Data e ora di disattivazione dell'istituzione. Se non è nel formato concordato, significa che l'istituzione è attiva."
+      }
+    }
+  },
+  "links": {
+    "home": {
+      "noSession": {
+        "label": "home",
+        "path": "/"
+      },
+      "session": {
+        "label": "home",
+        "path": "/home"
+      },
+      "back": "torna alla pagina iniziale"
+    },
+    "signup": {
+      "label": {
+        "principal": "Iscriviti!",
+        "alternative": "Non hai ancora un account? Clicca qui per registrarti!",
+        "title": "Registrazione utenti presso IDI",
+        "description": "Unisciti alla nostra comunità di ricercatori, sviluppatori e innovatori! Registrati sulla nostra piattaforma per accedere a risorse e strumenti che supportano i tuoi progetti e contribuiscono all'avanzamento della scienza e della tecnologia. Come utente, puoi appartenere a più sedi e istituzioni, ma ti chiediamo gentilmente di registrarti presso l'istituzione a cui ti senti maggiormente legato. Inoltre, per garantire l'autenticità e la sicurezza della piattaforma, sarà necessaria la convalida dell'indirizzo email, in particolare quando si seleziona un'istituzione. Unisciti ora e fai parte della nostra comunità di collaborazione e crescita nella ricerca, sviluppo e innovazione!",
+      },
+      "path": "/registrati",
+      "options": ["utente", "istituzione"]
+    },
+    "login": {
+      "label": {
+        "principal": "Accedi",
+        "alternative": "Se hai già un account, accedi qui."
+      },
+      "path": "/accedi",
+      "options": ["utente", "istituzione"]
+    },
+    "recover": {
+      "label": {
+        "principal": "Hai dimenticato la password? Fai clic qui per recuperarla",
+        "alternative": "Hai dimenticato la password?"
+      },
+      "path": "/recupero-password",
+      "title": "Recupera la tua password!",
+      "description": "Ciao! Ecco la pagina di recupero password, il tuo compagno affidabile quando hai bisogno di riottenere l'accesso al tuo account. Questa sezione ti aiuta a reimpostare e creare una nuova password, come un fabbro virtuale che ti fornisce una nuova chiave per entrare. Devi solo verificare la tua identità fornendo informazioni personali aggiuntive, come la tua email registrata o risposte a domande di sicurezza. Una volta verificato, la pagina ti guiderà nella creazione di una nuova password, assicurandoti di confermarla correttamente. Ricorda di usarla in modo responsabile e seguire le migliori pratiche di sicurezza. Non preoccuparti, con pochi semplici passaggi, riacquisterai l'accesso al tuo account in poco tempo!"
+    }
+  },
+  "options": {
+    "changeLanguage": "Cambia lingua"
+  },
+  "footer": {
+    "privacy": "Privacy",
+    "terms": "Termini",
+    "siteMap": "Mappa del sito",
+    "companyData": "Dati aziendali",
+    "assitanceResources": "Assistenza e risorse",
+    "assitance": {
+      "label": "Assistenza",
+      "links": {
+        "helpCenter": "Centro assistenza",
+        "discapacity": "Supporto alle persone disabili",
+        "cancel": "Opzioni di cancellazione",
+        "fraud": "Segnala un'eventuale frode"
+      }
+    },
+    "community": {
+      "label": "Comunità",
+      "links": {
+        "blog": "Blog",
+        "divulgation": "Divulgazione",
+        "figth": "La nostra lotta contro la discriminazione"
+      }
+    },
+    "aboutPlatform": {
+      "label": "Informazioni sulla piattaforma",
+      "links": {
+        "mission": "Missione",
+        "vission": "Visione"
+      }
+    },
+    "idi": {
+      "label": "IDI",
+      "links": {
+        "aboutUs": "Informazioni su di noi",
+        "trayectory": "Percorso",
+        "team": "Squadra"
+      }
+    }
+  }
+}

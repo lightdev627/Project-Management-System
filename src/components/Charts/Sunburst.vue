@@ -18,8 +18,7 @@
 <script setup>
   import {ref, onMounted, reactive, nextTick, onBeforeUnmount} from 'vue';
   import * as d3 from 'd3';
-  import {transition} from "d3-transition";
-  import {sunburstData} from '@/assets/sunburst_data.js';
+  import {sunburstData} from '../../assets/data/sunburst_data';
 
   const data = reactive(sunburstData);
 

@@ -2,7 +2,7 @@
   <component :is="navbarFixed ? 'a-affix' : 'div'" :offset-top="top">
     <a-layout-header>
       <a-row type="flex" align="middle">
-        <a-col :span="1" class="sidebar-toggle-col">
+        <a-col :span="2" class="sidebar-toggle-col">
           <a-button
             type="link"
             class="sidebar-toggler"
@@ -38,7 +38,7 @@
             </svg>
           </a-button>
         </a-col>
-        <a-col :span="23" :md="6">
+        <a-col :span="22" :md="6">
           <a-breadcrumb>
             <a-breadcrumb-item
               ><router-link to="/"> Pages</router-link></a-breadcrumb-item
@@ -52,7 +52,7 @@
           </div>
         </a-col>
 
-        <a-col :span="24" :md="16" class="header-control">
+        <!-- <a-col :span="24" :md="16" class="header-control">
           <a-button
             type="link"
             ref="secondarySidebarTriggerBtn"
@@ -97,7 +97,7 @@
               />
             </svg>
           </a-input-search>
-        </a-col>
+        </a-col> -->
       </a-row>
     </a-layout-header>
   </component>

@@ -1,75 +1,45 @@
 <template>
   <div>
-    <div class="control-section" style="min-height: 621px;">
-			<div align='center'>
-        <div ref="chartContainer" style="width: 100%; height: 500px;"></div>
-			</div>
-		</div>
+    <ejs-chart style="height: 450px;" :title='title' :primaryXAxis='primaryXAxis' :primaryYAxis='primaryYAxis'>
+      <e-series-collection>
+        <e-series :dataSource='seriesData' type='StackingColumn' xName='x' yName='y' name='UK'> </e-series>
+        <e-series :dataSource='seriesData' type='StackingColumn' xName='x' yName='y1' name='Germany'> </e-series>
+        <e-series :dataSource='seriesData' type='StackingColumn' xName='x' yName='y2' name='France'> </e-series>
+        <e-series :dataSource='seriesData' type='StackingColumn' xName='x' yName='y3' name='Italy'> </e-series>
+      </e-series-collection>
+    </ejs-chart>
   </div>
 </template>
-
 <script setup>
-  import { ref, onMounted } from 'vue'
-  import Highcharts from 'highcharts'
+import { provide } from "vue";
+import { ChartComponent as EjsChart, SeriesCollectionDirective as ESeriesCollection, SeriesDirective as ESeries, StackingColumnSeries, Category, Legend } from "@syncfusion/ej2-vue-charts";
 
-  const chartContainer = ref(null)
+const seriesData = [
+  { x: '2014', y: 111.1, y1: 76.9,  y2: 66.1,  y3: 34.1 },
+  { x: '2015', y: 127.3, y1: 99.5,  y2: 79.3,  y3: 38.2 },
+  { x: '2016', y: 143.4, y1: 121.7, y2: 91.3,  y3: 44.0 },
+  { x: '2017', y: 159.9, y1: 142.5, y2: 102.4, y3: 51.6 },
+  { x: '2018', y: 175.4, y1: 166.7, y2: 112.9, y3: 61.9 },
+  { x: '2019', y: 189.0, y1: 182.9, y2: 122.4, y3: 71.5 },
+  { x: '2020', y: 202.7, y1: 197.3, y2: 120.9, y3: 82.0 }
+];
+const primaryXAxis = {
+  title: 'Years',
+  interval: 1,
+  valueType: 'Category'
+};
+const primaryYAxis = {
+  title: 'Sales in Billions',
+  minimum: 0,
+  maximum: 700,
+  interval: 100,
+  labelFormat: '{value}B'
+};
+const title = 'MEMBERS WORKLOAD';
 
-  Highcharts.setOptions({
-    lang: {
-      decimalPoint: '.',
-      thousandsSep: ','
-    }
-  })
+provide('chart', [StackingColumnSeries, Category, Legend]);
 
-  onMounted(() => {
-    Highcharts.chart(chartContainer.value, {
-      chart: {
-        type: "column"
-      },
-      title: {
-        text: "GSMG Market Allocation"
-      },
-      xAxis: {
-        categories: ["ARK-ETH", "HOT-ETH", "NEO-ETH", "REP-ETH", "SNT-ETH"]
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: "Total allocation %"
-        }
-      },
-      legend: {
-        reversed: true
-      },
-      plotOptions: {
-        series: {
-          stacking: "normal"
-        }
-      },
-      series: [
-        {
-          name: "Buy",
-          data: [6.16, 6.47, 8.61, 5.44, 7.34]
-        },
-        {
-          name: "Sell",
-          data: [1.92, 1.6, 4.29, 1.7, 0.4]
-        },
-        {
-          name: "Free",
-          data: [
-            10 - 6.16 - 1.92,
-            10 - 6.47 - 1.6,
-            15 - 8.61 - 4.29,
-            10 - 5.44 - 1.7,
-            10 - 7.34 - 0.4
-          ]
-        }
-      ]
-    })
-  })
 </script>
+<style scoped>
 
-<style scoped lang="scss">
-	
 </style>

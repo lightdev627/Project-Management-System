@@ -1,0 +1,215 @@
+{
+  "info": {
+    "language": {
+      "name": "English",
+      "lang": "en",
+      "flag": "us"
+    },
+    "platform": {
+      "name": "IDI",
+      "lastName": "Research, Development, and Innovation Platform",
+      "slogan": "Made with ❤️ and 🧠 for a better future",
+      "keywords": ["Research Platform", "Development and Innovation", "IDI", "Scientific Research", "Project Development", "Technological Innovation", "Project Management", "Smooth Workflow", "Efficiency in Research", "Collaboration in Research", "Research Project Formulation", "Research Methodologies", "Task Management", "Research Schedules", "Scientific Articles", "Scientific Article Templates", "Scientific Article Review", "Technology Readiness Level (TRL)", "Technology Maturity Level", "Technology Progress Evaluation", "Market Viability"],
+      "description": "The Research, Development, and Innovation (IDI) Platform is a versatile tool that supports scientific research, project development, and technological innovation. With features such as project formulation, task management, creation of scientific articles, and measurement of technological maturity, IDI offers an efficient and collaborative workflow for researchers and scientists, enhancing productivity and success in their projects."
+    }
+  },
+  "inputs": {
+    "user": {
+      "label": "User",
+      "code": {
+        "label": "User identification code",
+        "tooltip": "This code is immutable.",
+        "hint": "This is a code provided by the platform.",
+        "error": "There is an error with the code."
+      },
+      "name": {
+        "label": "Full name(s)",
+        "tooltip": "Enter the user's first name(s) here, without including the last name.",
+        "hint": "Enter the user's first name(s) without including the last name.",
+        "error": "Enter a valid name."
+      },
+      "lastName": {
+        "label": "Full last name(s)",
+        "tooltip": "Enter the user's last name(s) here, without including the first name.",
+        "hint": "Enter the user's last name(s) without including the first name.",
+        "error": "Enter a valid last name."
+      },
+      "gender": {
+        "label": "Biological Gender",
+        "tooltip": "Select your biological gender or the gender identity you currently identify with.",
+        "hint": "The available options are 'Male' and 'Female' as this field is based on the biological gender a person was born with or currently identifies with sexually.",
+        "options": ["Male", "Female"],
+        "error": "Enter a valid biological gender."
+      },
+      "birthday": {
+        "label": "Date of birth",
+        "tooltip": "Please enter your date of birth.",
+        "hint": "Enter your date of birth in the format YYYY/MM/DD. You must be at least 10 years old to register on the platform.",
+        "error": "Enter a valid date of birth."
+      },
+      "email": {
+        "label": "Email",
+        "tooltip": "Please enter a valid email address. The email must be in the list of valid emails.",
+        "hint": "Make sure to enter a valid email address. Generally, these are institutional emails.",
+        "error": "Enter a valid email address."
+      },
+      "phone": {
+        "label": "Phone",
+        "tooltip": "Enter your phone number",
+        "hint": "Example: (+57) 311 234 5647",
+        "error": "Enter a valid contact number."
+      },
+      "password": {
+        "label": "Password",
+        "tooltip": "Enter a strong password with a minimum of 8 characters.",
+        "hint": "Enter a password with a minimum of 8 characters.",
+        "error": "The password is invalid or too weak."
+      },
+      "confirm": {
+        "label": "Confirm password",
+        "tooltip": "Make sure the password matches exactly.",
+        "hint": "Confirm the password to avoid security issues.",
+        "error": "Passwords do not match."
+      },
+      "confirmed": {
+        "label": "Confirmed on...",
+        "hint": "Date and time of user confirmation."
+      },
+      "created": {
+        "label": "Created on...",
+        "hint": "Date and time of user creation."
+      },
+      "updated": {
+        "label": "Updated on...",
+        "hint": "Date and time of the last update to user information."
+      },
+      "deleted": {
+        "label": "Deactivated on...",
+        "hint": "Date and time of user deactivation. If it is not in the agreed format, it means the user is active."
+      }
+    },
+    "institution": {
+      "label": "Platform",
+      "code": {
+        "label": "Institution identification code",
+        "tooltip": "This code is immutable.",
+        "hint": "This is a code provided by the platform.",
+        "error": "There is an error with the code."
+      },
+      "name": {
+        "label": "Institution name",
+        "tooltip": "Enter the institution's name without its business type.",
+        "hint": "Enter the institution's name.",
+        "error": "Enter a valid name."
+      },
+      "link": {
+
+
+        "label": "Platform link",
+        "tooltip": "Enter the link to the institution's platform, on the homepage.",
+        "hint": "Enter the link to the institution's platform.",
+        "error": "Enter a valid link."
+      },
+      "type": {
+        "label": "Institution type",
+        "tooltip": "Enter the institution's type, for example: University, Association, Foundation, etc.",
+        "hint": "Enter the institution's type.",
+        "error": "Enter a valid institution type."
+      },
+      "created": {
+        "label": "Created on...",
+        "hint": "Date and time of institution creation."
+      },
+      "updated": {
+        "label": "Updated on...",
+        "hint": "Date and time of the last update to institution information."
+      },
+      "deleted": {
+        "label": "Deactivated on...",
+        "hint": "Date and time of institution deactivation. If it is not in the agreed format, it means the institution is active."
+      }
+    }
+  },
+  "links": {
+    "home": {
+      "noSession": {
+        "label": "home",
+        "path": "/"
+      },
+      "session": {
+        "label": "home",
+        "path": "/home"
+      },
+      "back": "back to home"
+    },
+    "signup": {
+      "label": {
+        "principal": "Sign up!",
+        "alternative": "Don't have an account yet? Click here to sign up!",
+        "title": "User Registration at IDI",
+        "description": "Join our community of researchers, developers, and innovators! Sign up on our platform to access resources and tools that support your projects and contribute to the advancement of science and technology. As a user, you can belong to multiple locations and institutions, but we kindly ask you to register with the institution you feel most connected to. Additionally, to ensure the authenticity and security of the platform, email validation will be required, specifically when selecting an institution. Join now and be part of our community of collaboration and growth in research, development, and innovation!"
+      },
+      "path": "/register",
+      "options": ["user", "institution"]
+    },
+    "login": {
+      "label": {
+        "principal": "Log in",
+        "alternative": "If you already have an account, log in here."
+      },
+      "path": "/login",
+      "options": ["user", "institution"]
+    },
+    "recover": {
+      "label": {
+        "principal": "Forgot your password? Click here to recover it",
+        "alternative": "Forgot your password?"
+      },
+      "path": "/password-recovery",
+      "title": "Recover Your Password!",
+      "description": "Hello! Here's the password recovery page, your reliable companion when you need to regain access to your account. This section helps you reset and create a new password, like a virtual locksmith providing you with a new key to enter. You just need to verify your identity by providing additional personal information such as your registered email or answers to security questions. Once verified, the page will guide you through creating a new password, ensuring you confirm it correctly. Remember to use it responsibly and follow best security practices. Don't panic, with a few simple steps, you'll regain access to your account in no time!"
+    }
+  },
+  "options": {
+    "changeLanguage": "Change language"
+  },
+  "footer": {
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "siteMap": "Site Map",
+    "companyData": "Company Data",
+    "assitanceResources": "Assistance and Resources",
+    "assitance": {
+      "label": "Assistance",
+      "links": {
+        "helpCenter": "Help Center",
+        "discapacity": "Support for Disabled Individuals",
+        "cancel": "Cancellation Options",
+        "fraud": "Report Fraud"
+      }
+    },
+    "community": {
+      "label": "Community",
+      "links": {
+        "blog": "Blog",
+        "divulgation": "Disclosure",
+        "figth": "Our Fight Against Discrimination"
+      }
+    },
+    "aboutPlatform": {
+      "label": "About the Platform",
+      "links": {
+        "mission": "Mission",
+        "vission": "Vision"
+      }
+    },
+    "idi": {
+      "label": "IDI",
+      "links": {
+        "aboutUs": "About Us",
+        "trayectory": "Trajectory",
+        "team": "Team"
+      }
+    }
+  }
+}
