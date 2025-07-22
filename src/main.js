@@ -30,14 +30,6 @@ const pinia = createPinia();
 const app = createApp(App);
 
 app.use(pinia);
-app.use(Quasar, {
-  plugins: {
-    Notify
-  },
-  lang: quasarLang,
-});
-app.use(router);
-app.mount('#app');
 
 const initializeApp = async () => {
   try {
@@ -50,6 +42,15 @@ const initializeApp = async () => {
   }
 }
 
-initializeApp();
+await initializeApp();
+
+app.use(Quasar, {
+  plugins: {
+    Notify
+  },
+  lang: quasarLang,
+});
+app.use(router);
+app.mount('#app');
 
 registerLicense("ORg4AjUWIQA/Gnt3VVhhQlJDfVddXGBWfFN0QHNYf1R0c19HZEwgOX1dQl9mSXlSckRiWH9ed3FcQ2dXUkQ=")

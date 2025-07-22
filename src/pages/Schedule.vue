@@ -1,84 +1,89 @@
 <template>
   <q-card class="schedule-root">
-    <div class="schedule-header">
-      <div class="schedule-selects">
-        <span class="select-icon">YEAR : </span>
-        <select v-model="selectedYear" class="selectbox">
-          <option v-for="year in years" :key="year" :value="year">
-            {{ year }}
-          </option>
-        </select>
-        <span class="select-icon">MONTH : </span>
-        <select v-model="selectedMonth" class="selectbox">
-          <option v-for="(month, idx) in months" :key="month" :value="idx">
-            {{ month }}
-          </option>
-        </select>
-        <span class="select-icon">WEEK : </span>
-        <select v-model="selectedWeek" class="selectbox">
-          <option :value="null">All Weeks</option>
-          <option
-            v-for="(week, idx) in weeksInMonth"
-            :key="week.label"
-            :value="idx"
-          >
-            {{ week.label }}
-          </option>
-        </select>
-      </div>
-    </div>
-    <table class="schedule-table">
-      <thead>
-        <tr>
-          <th class="left-header">{{ leftColumnHeader }}</th>
-          <th>Tasks</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(row, rowIdx) in tableRows"
-          :key="row.label"
-          :class="{ 'highlight-row': isCurrent(row.label) }"
-        >
-          <td class="left-col">{{ row.label }}</td>
-          <td>
-            <div class="task-list">
-              <transition-group name="fade" tag="span">
-                <span
-                  v-for="(task, tIdx) in row.tasks"
-                  :key="task"
-                  class="task-chip"
-                >
-                  {{ task }}
-                  <button @click="removeTask(rowIdx, tIdx)" class="chip-remove">
-                    &times;
-                  </button>
-                </span>
-              </transition-group>
-              <select
-                v-model="selectedTask[rowIdx]"
-                @change="addTask(rowIdx)"
-                class="add-task-select"
+    <LoadingSpinner :showing="loading" text="Loading schedule...">
+      <div>
+        <div class="schedule-header">
+          <div class="schedule-selects">
+            <span class="select-icon">YEAR : </span>
+            <select v-model="selectedYear" class="selectbox">
+              <option v-for="year in years" :key="year" :value="year">
+                {{ year }}
+              </option>
+            </select>
+            <span class="select-icon">MONTH : </span>
+            <select v-model="selectedMonth" class="selectbox">
+              <option v-for="(month, idx) in months" :key="month" :value="idx">
+                {{ month }}
+              </option>
+            </select>
+            <span class="select-icon">WEEK : </span>
+            <select v-model="selectedWeek" class="selectbox">
+              <option :value="null">All Weeks</option>
+              <option
+                v-for="(week, idx) in weeksInMonth"
+                :key="week.label"
+                :value="idx"
               >
-                <option :value="null">Add task...</option>
-                <option
-                  v-for="task in availableTasks(row.tasks)"
-                  :key="task"
-                  :value="task"
-                >
-                  {{ task }}
-                </option>
-              </select>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+                {{ week.label }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th class="left-header">{{ leftColumnHeader }}</th>
+              <th>Tasks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(row, rowIdx) in tableRows"
+              :key="row.label"
+              :class="{ 'highlight-row': isCurrent(row.label) }"
+            >
+              <td class="left-col">{{ row.label }}</td>
+              <td>
+                <div class="task-list">
+                  <transition-group name="fade" tag="span">
+                    <span
+                      v-for="(task, tIdx) in row.tasks"
+                      :key="task"
+                      class="task-chip"
+                    >
+                      {{ task }}
+                      <button @click="removeTask(rowIdx, tIdx)" class="chip-remove">
+                        &times;
+                      </button>
+                    </span>
+                  </transition-group>
+                  <select
+                    v-model="selectedTask[rowIdx]"
+                    @change="addTask(rowIdx)"
+                    class="add-task-select"
+                  >
+                    <option :value="null">Add task...</option>
+                    <option
+                      v-for="task in availableTasks(row.tasks)"
+                      :key="task"
+                      :value="task"
+                    >
+                      {{ task }}
+                    </option>
+                  </select>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </LoadingSpinner>
   </q-card>
 </template>
 
 <script setup>
 import { ref, computed, watch } from "vue";
+import LoadingSpinner from '../components/LoadingSpinner.vue';
 
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 5 }, (_, i) => currentYear - 2 + i);
@@ -110,6 +115,8 @@ const selectedYear = ref(currentYear);
 const selectedMonth = ref(new Date().getMonth());
 const selectedWeek = ref(null); // null = all weeks
 
+const loading = ref(true);
+
 function getDaysInMonth(year, month) {
   return new Date(year, month + 1, 0).getDate();
 }
@@ -139,7 +146,8 @@ const weeksInMonth = computed(() =>
 const tableRows = ref([]);
 const selectedTask = ref([]);
 
-function resetTableRows() {
+async function resetTableRows() {
+  loading.value = true;
   if (selectedWeek.value === null) {
     tableRows.value = weeksInMonth.value.map((week) => ({
       label: week.label,
@@ -162,6 +170,8 @@ function resetTableRows() {
     tableRows.value = days;
     selectedTask.value = Array(days.length).fill(null);
   }
+  await new Promise(resolve => setTimeout(resolve, 500));
+  loading.value = false;
 }
 
 watch([selectedYear, selectedMonth, selectedWeek], resetTableRows, {

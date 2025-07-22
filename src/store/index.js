@@ -17,60 +17,8 @@ export const useUserStore = defineStore('user', {
 
 export const useTaskStore = defineStore('task', {
   state: () => ({
-    taskList: [
-      {
-        key: "1",
-        project_name: "123123123",
-        selected: false,
-        position: "epic",
-        task: "MF111-1",
-        sub_task: "sdf",
-        description: "TO DO",
-        groups: "",
-        architecture: "",
-        isEditing: false,
-        isNew: false,
-      },
-      {
-        key: "2",
-        project_name: "123123123",
-        selected: false,
-        position: "task",
-        task: "MF111-2",
-        sub_task: "123wwd",
-        description: "TO DO",
-        groups: "",
-        architecture: "",
-        isEditing: false,
-        isNew: false,
-      },
-      {
-        key: "3",
-        project_name: "123123123",
-        selected: false,
-        position: "task",
-        task: "MF111-3",
-        sub_task: "gfjghfg",
-        description: "IN PROGRESS",
-        groups: "",
-        architecture: "",
-        isEditing: false,
-        isNew: false,
-      },
-      {
-        key: "4",
-        project_name: "123123123",
-        selected: false,
-        position: "task",
-        task: "MF111-4",
-        sub_task: "132",
-        description: "IN PROGRESS",
-        groups: "",
-        architecture: "",
-        isEditing: false,
-        isNew: false,
-      },
-    ],
+    taskList: [],
+    loading: false
   }),
   actions: {
     setTasks (payload) {
@@ -80,7 +28,19 @@ export const useTaskStore = defineStore('task', {
       this.taskList.push(payload);
     },
     deleteTasks(payload) {
-      this.taskList = this.taskList.filter(item => item.ID !== payload);
+      this.taskList = this.taskList.filter(item => payload.indexOf(item.ID) === -1);
+    },
+    editTask (payload) {
+      this.taskList.find(item => item.ID == payload.ID).project_name = payload.project_name;
+      this.taskList.find(item => item.ID == payload.ID).position = payload.position;
+      this.taskList.find(item => item.ID == payload.ID).task = payload.task;
+      this.taskList.find(item => item.ID == payload.ID).sub_task = payload.sub_task;
+      this.taskList.find(item => item.ID == payload.ID).description = payload.description;
+      this.taskList.find(item => item.ID == payload.ID).groups = payload.groups;
+      this.taskList.find(item => item.ID == payload.ID).architecture = payload.architecture;
+    },
+    setLoading(val) {
+      this.loading = val;
     }
   }
 })

@@ -41,9 +41,10 @@ export async function loadAccessToken() {
   const { tokenType, accessToken } = await msalInstance.loginPopup({
     scopes: ["https://e1aoa.sharepoint.com/.default"],
   });
-
+  
   headers.Authorization = tokenType + " " + accessToken;
   window.localStorage.setItem("Authorization", headers.Authorization);
+  
 }
 
 // --- Get SharePoint request digest and user info ---
@@ -89,13 +90,20 @@ export async function loadRequestDigest() {
 
 export async function axiosRequest(method, ListName, details = null, body = null) {
 
-  console.log(headers)
+  let res = {};
 
-  const res = await axios[method](
-    `${sharepointSiteUrl}/_api/web/lists/getbytitle('${ListName}')/items` + (details || ""),
-    body,
-    { headers }
-  );
+  if(method == 'get' || method == "delete") {
+    res = await axios[method](
+      `${sharepointSiteUrl}/_api/web/lists/getbytitle('Tasks')/items` + (details || ""),
+      {headers }
+    );
+  } else {
+    res = await axios[method](
+      `${sharepointSiteUrl}/_api/web/lists/getbytitle('Tasks')/items` + (details || ""),
+      body,
+      { headers }
+    );
+  }
 
   if (res.status == 401) {
     alert("Unauthorized");
