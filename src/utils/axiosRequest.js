@@ -1,7 +1,7 @@
 import * as msal from "@azure/msal-browser";
-import store from "../store";
 import axios from "axios";
 
+import {useUserStore} from "../store/index";
 // --- Azure AD App Config ---
 const TENANT_ID = "893c3206-7236-4ab1-82b5-d8d51b82ac12";
 const CLIENT_ID = "b3aed150-5011-4b6f-9143-77658825ab99";
@@ -48,6 +48,9 @@ export async function loadAccessToken() {
 
 // --- Get SharePoint request digest and user info ---
 export async function loadRequestDigest() {
+
+  const userStore = useUserStore();
+
   // Get request digest for SharePoint API
   const res = await axios.post(
     `${sharepointSiteUrl}/_api/contextinfo`,
@@ -68,7 +71,8 @@ export async function loadRequestDigest() {
       `${sharepointSiteUrl}/_api/web/currentuser`,
       { headers }
     );
-    store.commit("setUser", await res.data);
+    const data = await res.data;
+    userStore.setUser(data);
   })();
 
   // Fetch all site users and commit to store
@@ -78,17 +82,17 @@ export async function loadRequestDigest() {
       { headers }
     );
     const data = await res.data;
-    store.commit(
-      "setSiteUsers",
-      data.value.filter((it) => it.PrincipalType == 1 && it.Email)
-    );
+
+    userStore.setSiteUsers(data.value.filter((it) => it.PrincipalType == 1 && it.Email));
   })();
 }
 
-export async function axiosRequest(method, listName, details = null, body = null) {
+export async function axiosRequest(method, ListName, details = null, body = null) {
+
+  console.log(headers)
 
   const res = await axios[method](
-    `${sharepointSiteUrl}/_api/web/lists/getbytitle('${listName}')/items` + (details || ""),
+    `${sharepointSiteUrl}/_api/web/lists/getbytitle('${ListName}')/items` + (details || ""),
     body,
     { headers }
   );
@@ -98,7 +102,7 @@ export async function axiosRequest(method, listName, details = null, body = null
     return window.location.reload();
   }
 
-  if (method == "delete") return;
+  if (method == "put" || method == "delete") return;
 
   const data = await res.data;
 

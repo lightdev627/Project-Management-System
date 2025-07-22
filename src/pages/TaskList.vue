@@ -1,77 +1,70 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
+import { ref, onMounted, onUnmounted, watch } from "vue";
+
+import { useTaskStore } from "../store";
+
 import { addItem } from "../actions/addItem";
+import { getItem } from "../actions/getItem";
+import { editItem } from "../actions/editItem";
+import { deleteItem } from "../actions/deleteItem";
+
+const taskStore = useTaskStore();
+
+const tasks = taskStore.taskList;
+const taskRows = ref([]);
+
+onMounted(() => {
+  const fields = [
+    "ID",
+    "project_name",
+    "position",
+    "task",
+    "sub_task",
+    "description",
+    "groups",
+    "architecture"
+  ];
+
+  getItem("Tasks", fields).then(res => {
+    console.log(res);
+  })
+})
+
+watch(
+  () => [tasks],
+  ([source]) => {
+    taskRows.value = source.map(task => ({
+      ...task,
+      selected: false,
+      isEditing: false
+    }));
+  },
+  { immediate: true }
+);
 
 const searchText = ref("");
-const tasks = ref([
-  {
-    key: "1",
-    selected: false,
-    project: "123123123",
-    phase: "epic",
-    task: "MF111-1",
-    subtask: "sdf",
-    description: "TO DO",
-    groups: "",
-    architecture: "",
-    isEditing: false,
-  },
-  {
-    key: "2",
-    selected: false,
-    project: "123123123",
-    phase: "task",
-    task: "MF111-2",
-    subtask: "123wwd",
-    description: "TO DO",
-    groups: "",
-    architecture: "",
-    isEditing: false,
-  },
-  {
-    key: "3",
-    selected: false,
-    project: "123123123",
-    phase: "task",
-    task: "MF111-3",
-    subtask: "gfjghfg",
-    description: "IN PROGRESS",
-    groups: "",
-    architecture: "",
-    isEditing: false,
-  },
-  {
-    key: "4",
-    selected: false,
-    project: "123123123",
-    phase: "task",
-    task: "MF111-4",
-    subtask: "132",
-    description: "IN PROGRESS",
-    groups: "",
-    architecture: "",
-    isEditing: false,
-  },
-]);
 
-// Add newTask for add form
 const newTask = ref({
-  project: "",
-  phase: "",
+  project_name: "",
+  position: "",
   task: "",
-  subtask: "",
+  sub_task: "",
   description: "",
   groups: "",
   architecture: "",
 });
+
 const showAddForm = ref(false);
+const newConfirmState = ref(false);
+const editingRowKey = ref(null);
+const editingColName = ref(null);
 
 const columns = [
   { name : "selected", align: "center", label: "", field: "selected", style: "width: 10px" },
-  { name : "project", align: "left", label: "Project Name", field: "Project", style: "width: 100px" },
-  { name : "phase", align: "left", label: "Phase", field: "phase", style: "width: 100px" },
+  { name : "project_name", align: "left", label: "Project Name", field: "project_name", style: "width: 100px" },
+  { name : "position", align: "left", label: "Position", field: "position", style: "width: 100px" },
   { name : "task", align: "left", label: "Task", field: "task", style: "width: 100px" },
-  { name : "subtask", align: "left", label: "SubTask", field: "subtask", style: "width: 100px" },
+  { name : "sub_task", align: "left", label: "SubTask", field: "sub_task", style: "width: 100px" },
   { name : "description", align: "left", label: "Description", field: "description", style: "width: 200px" },
   { name : "groups", align: "left", label: "Groups", field: "groups", style: "width: 150px" },
   { name : "architecture", align: "left", label: "Architecture", field: "architecture", style: "width: 100px" },
@@ -84,48 +77,45 @@ const pagination = ref({
   rowsPerPage: 10
 })
 
-const editingRowKey = ref(null);
-const editingColName = ref(null);
+const filteredTasks = () => {
+  if (!searchText.value) return taskRows.value;
 
-const filteredTasks = computed(() => {
-  if (!searchText.value) return tasks.value;
-
-  return tasks.value.filter(
+  return taskRows.value.filter(
     (task) =>
-      task.phase.toLowerCase().includes(searchText.value.toLowerCase()) ||
+      task.project_name.toLowerCase().includes(searchText.value.toLowerCase()) ||
+      task.position.toLowerCase().includes(searchText.value.toLowerCase()) ||
       task.task.toLowerCase().includes(searchText.value.toLowerCase()) ||
-      task.subtask.toLowerCase().includes(searchText.value.toLowerCase()) ||
+      task.sub_task.toLowerCase().includes(searchText.value.toLowerCase()) ||
       task.description.toLowerCase().includes(searchText.value.toLowerCase()) ||
       task.groups.toLowerCase().includes(searchText.value.toLowerCase()) ||
       task.architecture.toLowerCase().includes(searchText.value.toLowerCase())
   );
-});
+};
 
-const hasSelectedRows = computed(() => {
-  return tasks.value.some((task) => task.selected);
-});
+const hasSelectedRows = () => {
+  return taskRows.value.some((task) => task.selected);
+};
 
 const handleSearch = (value) => {
   searchText.value = value;
 };
 
-// Validation for required fields
 function isFieldInvalid(field, record) {
-  return ["project", "phase", "task", "subtask"].includes(field) && (!record[field] || record[field].trim() === "");
+  return ["project_name", "position", "task", "sub_task"].includes(field) && (!record[field] || record[field].trim() === "");
 }
 
 function isRowValid(record) {
-  return ["project", "phase", "task", "subtask"].every(f => record[f] && record[f].trim() !== "");
+  return ["project_name", "position", "task", "sub_task"].every(f => record[f] && record[f].trim() !== "");
 }
 
 const addNewRow = () => {
   showAddForm.value = true;
-  // Reset newTask
+
   newTask.value = {
-    project: "",
-    phase: "",
+    project_name: "",
+    position: "",
     task: "",
-    subtask: "",
+    sub_task: "",
     description: "",
     groups: "",
     architecture: "",
@@ -133,28 +123,30 @@ const addNewRow = () => {
 };
 
 function saveNewTask() {
+  newConfirmState.value = true;
   if (!isRowValid(newTask.value)) return;
-  const newKey = Date.now().toString();
-  tasks.value.push({
-    key: newKey,
-    selected: false,
-    ...newTask.value,
-    isEditing: false,
-  });
-  showAddForm.value = false;
+
+  addItem("Tasks", newTask.value).then(res => {
+    taskStore.addTask({
+      ...newTask.value,
+      ID: res.ID
+    })
+    showAddForm.value = false;
+    newConfirmState.value = false;
+  })
 }
 
 function cancelNewTask() {
   showAddForm.value = false;
+  newConfirmState.value = false;
 }
 
 const deleteSelectedRows = () => {
-  tasks.value = tasks.value.filter((task) => !task.selected);
+  // tasks.value = tasks.value.filter((task) => !task.selected);
 };
 
 const startEditing = (record, colName) => {
-  // Cancel any other editing rows first
-  tasks.value.forEach((task) => {
+  taskRows.value.forEach((task) => {
     if (task !== record) {
       task.isEditing = false;
     }
@@ -164,8 +156,6 @@ const startEditing = (record, colName) => {
   record.originalData = { ...record };
   editingRowKey.value = record.key;
   editingColName.value = colName;
-  // Quasar's autofocus will handle focusing the correct input
-  nextTick(() => {});
 };
 
 const saveRow = (record) => {
@@ -192,7 +182,7 @@ const handleKeyDown = (event, record) => {
 };
 
 const cancelAllEditing = () => {
-  tasks.value.forEach((task) => {
+  taskRows.value.forEach((task) => {
     if (task.isEditing) {
       // Optionally restore original data if needed
       if (task.originalData) {
@@ -242,16 +232,20 @@ onUnmounted(() => {
         </q-input>
       </div>
       <div>
-        <q-btn color="primary" @click="addNewRow" style="margin-right: 8px">
-          <q-icon left name="navigation" />
+        <q-btn
+          color="primary"
+          icon="add"
+          @click="addNewRow"
+          style="margin-right: 8px"
+        >
           <div>Add</div>
         </q-btn>
         <q-btn
           color="red"
+          icon="delete"
           @click="deleteSelectedRows"
           :disabled="!hasSelectedRows"
         >
-          <q-icon left name="directions" />
           <div>Delete</div>
         </q-btn>
       </div>
@@ -260,17 +254,17 @@ onUnmounted(() => {
     <!-- Add Task Form -->
     <div v-if="showAddForm" class="q-pa-md" style="background: #f9f9f9; border-radius: 8px; margin-bottom: 1rem;">
       <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        <q-input v-for="field in ['project','phase','task','subtask','description','groups','architecture']"
+        <q-input v-for="field in ['project_name','position','task','sub_task','description','groups','architecture']"
           :key="field"
           v-model="newTask[field]"
           :label="field.charAt(0).toUpperCase() + field.slice(1)"
-          dense outlined :error="isFieldInvalid(field, newTask)"
-          :error-message="isFieldInvalid(field, newTask) ? 'Required' : ''"
-          style="min-width: 120px; max-width: 180px;"
+          dense outlined :error="isFieldInvalid(field, newTask) && newConfirmState"
+          :error-message="(isFieldInvalid(field, newTask) && newConfirmState) ? 'Required' : ''"
+          style="min-width: 120px; max-width: 190px;"
         />
       </div>
-      <div class="q-mt-md">
-        <q-btn color="primary" @click="saveNewTask" :disable="!isRowValid(newTask)">Save</q-btn>
+      <div class="q-mt-md" style="text-align: right; margin-right: 30px;">
+        <q-btn color="primary" @click="saveNewTask">Save</q-btn>
         <q-btn flat @click="cancelNewTask" class="q-ml-sm">Cancel</q-btn>
       </div>
     </div>
@@ -278,7 +272,7 @@ onUnmounted(() => {
     <!-- Table -->
     <q-table
       :columns="columns"
-      :rows="filteredTasks"
+      :rows="filteredTasks()"
       row-key="name"
       bordered
       size="small"
@@ -296,7 +290,7 @@ onUnmounted(() => {
             <template v-if="col.name === 'selected'">
               <q-checkbox v-model="props.row.selected" />
             </template>
-            <template v-else-if="['project', 'phase', 'task', 'subtask', 'description', 'groups', 'architecture'].includes(col.name)">
+            <template v-else-if="['project_name', 'position', 'task', 'sub_task', 'description', 'groups', 'architecture'].includes(col.name)">
               <template v-if="props.row.isEditing">
                 <q-input
                   ref="inputField"

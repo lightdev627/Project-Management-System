@@ -1,14 +1,5 @@
 import { loadAccessToken, loadRequestDigest } from "./utils/axiosRequest.js";
 
-try {
-  await loadAccessToken();
-  await loadRequestDigest();
-} catch (err) {
-  console.log(err)
-  document.write(`<h1>😕 Ooops! <i style="font-size: 20px;">${err}</i></h1>`);
-  window.stop();
-}
-
 import { createApp } from 'vue'
 import { Quasar, Notify } from 'quasar'
 import quasarLang from 'quasar/lang/en-US'
@@ -34,14 +25,31 @@ import './assets/styles/css/styles.css'
 
 import App from './App.vue'
 
-createApp(App)
-.use(createPinia())
-.use(Quasar, {
+const pinia = createPinia();
+
+const app = createApp(App);
+
+app.use(pinia);
+app.use(Quasar, {
   plugins: {
     Notify
   },
   lang: quasarLang,
-})
-.use(router)
-.mount('#app')
+});
+app.use(router);
+app.mount('#app');
+
+const initializeApp = async () => {
+  try {
+    await loadAccessToken();
+    await loadRequestDigest();
+  } catch (err) {
+    console.log(err)
+    document.write(`<h1>😕 Ooops! <i style="font-size: 20px;">${err}</i></h1>`);
+    window.stop();
+  }
+}
+
+initializeApp();
+
 registerLicense("ORg4AjUWIQA/Gnt3VVhhQlJDfVddXGBWfFN0QHNYf1R0c19HZEwgOX1dQl9mSXlSckRiWH9ed3FcQ2dXUkQ=")
