@@ -1,15 +1,3 @@
-<template>
-	<div class="body">
-		<div id="container" @mouseover="moveBackground">
-			<div class="content">
-				<h2>404</h2>
-				<h4>Sorry, the page you visited does not exist.</h4>
-				<q-btn color="info" icon="settings_backup_restore" label="Back Home" @click="goBack" />
-			</div>
-		</div>
-	</div>
-</template>
-
 <script setup>
 	import { useRouter } from 'vue-router'
 
@@ -29,6 +17,18 @@
 		container.style.backgroundPositionY = y + 'px';
 	}
 </script>
+
+<template>
+	<div class="body">
+		<div id="container" @mouseover="moveBackground">
+			<div class="content">
+				<h2>404</h2>
+				<h4>Sorry, the page you visited does not exist.</h4>
+				<q-btn color="info" icon="settings_backup_restore" label="Back Home" @click="goBack" />
+			</div>
+		</div>
+	</div>
+</template>
 
 <style scoped>
 	.body {

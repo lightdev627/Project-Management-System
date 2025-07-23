@@ -94,12 +94,12 @@ export async function axiosRequest(method, ListName, details = null, body = null
 
   if(method == 'get' || method == "delete") {
     res = await axios[method](
-      `${sharepointSiteUrl}/_api/web/lists/getbytitle('Tasks')/items` + (details || ""),
+      `${sharepointSiteUrl}/_api/web/lists/getbytitle('${ListName}')/items` + (details || ""),
       {headers }
     );
   } else {
     res = await axios[method](
-      `${sharepointSiteUrl}/_api/web/lists/getbytitle('Tasks')/items` + (details || ""),
+      `${sharepointSiteUrl}/_api/web/lists/getbytitle('${ListName}')/items` + (details || ""),
       body,
       { headers }
     );
