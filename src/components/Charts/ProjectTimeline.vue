@@ -34,11 +34,9 @@ import {
 } from "@syncfusion/ej2-vue-charts";
 
 const seriesData = [
-  { country: "Chile", walnuts: 175000 },
-  { country: "European", walnuts: 140000 },
-  { country: "Turkey", walnuts: 67000 },
-  { country: "India", walnuts: 33000 },
-  { country: "Australia", walnuts: 12000 },
+  { country: "Website Release", walnuts: 175000 },
+  { country: "Sell the new Product", walnuts: 140000 },
+  { country: "Product Release", walnuts: 140000 },
 ];
 
 const primaryXAxis = {

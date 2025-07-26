@@ -9,43 +9,43 @@
 
   const menuList = [
   {
-    icon: 'inbox',
+    icon: 'dashboard',
     label: 'Dashboard',
     linkTo: '/',
     separator: false
   },
   {
-    icon: 'send',
+    icon: 'settings',
     label: 'Setup',
     linkTo: '/setup',
     separator: false
   },
   {
-    icon: 'delete',
+    icon: 'timeline',
     label: 'Project Timeline',
     linkTo: '/timeline',
     separator: false
   },
   {
-    icon: 'error',
+    icon: 'checklist', // or 'list_alt'
     label: 'Task List',
     linkTo: '/list',
     separator: false
   },
   {
-    icon: 'settings',
+    icon: 'today', // or 'event_note'
     label: 'Daily Tasks',
     linkTo: '/dailytasks',
     separator: false
   },
   {
-    icon: 'feedback',
+    icon: 'calendar_month', // or 'date_range'
     label: 'Weekly / Monthly Schedule',
     linkTo: '/schedule',
     separator: false
   },
   {
-    icon: 'help',
+    icon: 'note', // or 'sticky_note_2'
     label: 'Notes',
     linkTo: '/notes',
     separator: false

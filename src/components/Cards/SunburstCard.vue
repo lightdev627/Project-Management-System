@@ -6,18 +6,15 @@
     </button>
     <SunburstChart
       component-id="chartId"
-      :data="data"
       :class="{ 'fullscreen-chart': isFullscreen }"
     />
   </div>
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import SunburstChart from "../Charts/Sunburst.vue";
-import { sunburstData } from "../../assets/data/sunburst_data.js";
 
-const data = reactive(sunburstData);
 const isFullscreen = ref(false);
 
 function toggleFullscreen() {

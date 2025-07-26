@@ -38,7 +38,6 @@
       title: 'note_types',
       items: []
     },
-
   ]});
   const currentKeyRows = ref([]);
 

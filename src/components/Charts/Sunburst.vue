@@ -1,39 +1,62 @@
-<template>
-  <div style="min-height: 625px">
-    <div ref="chartContainer" class="sunburst-chart" id="chartId"></div>
-    <div class="selected-info" v-if="selectedItem">
-      <strong>Selected:</strong> {{ selectedItem.name }}<br/>
-      <strong>Depth:</strong> {{ selectedItem.depth }}<br/>
-      <strong>Value:</strong> {{ selectedItem.value }}
-    </div>
-    <div class="legend">
-      <div v-for="item in legendItems" :key="item.key" class="legend-item">
-        <span class="legend-color" :style="{backgroundColor: item.color}"></span>
-        <span class="legend-label">{{ item.name }}</span>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup>
-  import {ref, onMounted, reactive, nextTick, onBeforeUnmount} from 'vue';
+  import {ref, onMounted, reactive, watch} from 'vue';
   import * as d3 from 'd3';
-  import {sunburstData} from '../../assets/data/sunburst_data';
-
+  import { getItem } from '../../actions/getItem';
+  import { useSunburstStore } from '../../store';
+  
+  const sunburstData = ref({
+    name: "Project",
+    children: []
+  });
+  
   const data = reactive(sunburstData);
 
-  const width = ref("100%");
+  const sunburstStore = useSunburstStore();
+
   const height = ref("100%");
 
   const selectedItem = ref(null);
   const legendItems = ref([]);
+  const sunburstContainer = ref(null);
+
+  const colorHash = {
+    completed: "green",
+    roadblock: "red",
+    delayed: "yellow",
+    inprogress: "blue",
+    default: "grey"
+  }
 
   onMounted(() => {
-    createSunburstChart();
     createLegendItems();
+
+    const fields = ["ID", "Title", "timeline_progress", "status", "assigned_to"]
+
+    getItem("Plans", fields).then(res => {
+      sunburstStore.setProgressing(res)
+    })
   });
 
-  let zoomTo;
+  watch(
+    () => sunburstStore.progressingData,
+    (source) => {
+      source.map(item => {
+        sunburstData.value.children.push({
+          name: item.Title,
+          color: colorHash[item.status],
+          value: item.timeline_progress,
+        })
+      })
+    },
+    {immediate: true, deep: true}
+  )
+
+  watch(
+    () => sunburstData.value.children.length,
+    () => {
+      createSunburstChart();
+    }
+  );
 
   function createSunburstChart() {
     const partition = data => {
@@ -44,7 +67,7 @@
       return d3.partition().size([2 * Math.PI, root.height + 1])(root);
     };
 
-    const root = partition(data);
+    const root = partition(sunburstData.value);
 
     root.each(d => (d.current = d));
 
@@ -52,7 +75,7 @@
 
     const svg = d3
         .create("svg")
-        .attr('width', width.value)
+        .attr('width', width)
         .attr('height', height.value)
         .attr("viewBox", [0, 0, width, width])
         .style("font", "14px sans-serif bold");
@@ -62,7 +85,7 @@
         .attr("transform", `translate(${width / 2},${width / 2})`);
 
     const color = d3.scaleOrdinal(
-        d3.quantize(d3.interpolateRainbow, data.children.length + 1)
+        d3.quantize(d3.interpolateRainbow, sunburstData.value.children.length + 1)
     );
 
     const radius = width / 6;
@@ -82,8 +105,10 @@
         .data(root.descendants().slice(1))
         .join("path")
         .attr("fill", d => {
-          while (d.depth > 1) d = d.parent;
-          return color(d.data.name);
+          // Use custom color if present, otherwise use color scale
+          let node = d;
+          while (node.depth > 1) node = node.parent;
+          return d.data.color || color(node.data.name);
         })
         .attr("fill-opacity", d =>
             arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0
@@ -95,6 +120,10 @@
             depth: d.depth,
             value: d.value
           };
+          d3.select(this).attr("fill-opacity", 0.7).attr("stroke", "#000").attr("stroke-width", 2);
+        })
+        .on("mouseout", function(event, d) {d3.select(this).attr("fill-opacity", arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0)
+          .attr("stroke", null);
         });
 
     path
@@ -124,7 +153,7 @@
         .attr("dy", "0.35em")
         .attr("fill-opacity", d => +labelVisible(d.current))
         .attr("transform", d => labelTransform(d.current))
-        .text(d => d.data.name);
+        .text(d => d.data.name)
 
     const parent = g
         .append("circle")
@@ -134,7 +163,24 @@
         .attr("pointer-events", "all")
         .on("click", clicked);
 
+    g.append("text")
+        .attr("class", "project-name")
+        .attr("text-anchor", "middle")
+        .attr("dy", "0.35em")
+        .attr("font-size", "18px")
+        .text(sunburstData.value.name)
+        .style("fill", "#000");
+
     function clicked(event, p) {
+
+      selectedItem.value = {
+        name: p.data.name,
+        depth: p.depth,
+        value: p.value
+      };
+
+      window.alert(`Node Clicked:\nName: ${p.data.name}\nDepth: ${p.depth}\nValue: ${p.value}`);
+
       parent.datum(p.parent || root);
 
       root.each(
@@ -155,9 +201,6 @@
 
       const t = g.transition().duration(750);
 
-      // Transition the data on all arcs, even the ones that aren’t visible,
-      // so that if this transition is interrupted, entering arcs will start
-      // the next transition from the desired position.
       path
           .transition(t)
           .tween("data", d => {
@@ -167,9 +210,9 @@
           .filter(function(d) {
             return +this.getAttribute("fill-opacity") || arcVisible(d.target);
           })
-          .attr("fill-opacity", d =>
-              arcVisible(d.target) ? (d.children ? 0.6 : 0.4) : 0
-          )
+          .attr("fill-opacity", d =>arcVisible(d.target) ? (d.children ? 0.6 : 0.4) : 0)
+          .attr("stroke", d => d === p ? "black" : null)
+          .attr("stroke-width", d => d === p ? 3 : null)
           .attrTween("d", d => () => arc(d.current));
 
       label
@@ -195,8 +238,12 @@
       return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
     }
 
-    document.getElementById('chartId').appendChild(svg.node())
+    if (sunburstContainer.value) {
+      sunburstContainer.value.innerHTML = '';
+      sunburstContainer.value.appendChild(svg.node());
+    }
 
+    d3.select(this).classed("selected-node", true);
   }
 
   function createLegendItems() {
@@ -209,7 +256,7 @@
         items.push({
           key: child.name,
           name: child.name,
-          color: colorScale(child.name)
+          color: child.color || colorScale(child.name)
         });
       });
     }
@@ -217,13 +264,29 @@
   }
 </script>
 
+<template>
+  <div style="min-height: 625px">
+    <div ref="sunburstContainer" class="sunburst-container"></div>
+    <div class="selected-info" v-if="selectedItem">
+      <strong>Selected:</strong> {{ selectedItem.name }}<br/>
+      <strong>Depth:</strong> {{ selectedItem.depth }}<br/>
+      <strong>Value:</strong> {{ selectedItem.value }}
+    </div>
+    <div class="legend">
+      <div v-for="item in legendItems" :key="item.key" class="legend-item">
+        <span class="legend-color" :style="{backgroundColor: item.color}"></span>
+        <span class="legend-label">{{ item.name }}</span>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
   .sunburst-chart {
     margin-bottom: 16px;
     width: 100%;
     aspect-ratio: 1 / 1;
     position: relative;
-    /* Removed max-width so it can grow with the card */
   }
   .sunburst-chart > svg {
     position: absolute;
@@ -235,6 +298,10 @@
   .selected-info {
     margin-bottom: 16px;
     font-size: 16px;
+  }
+  .selected-node {
+    stroke: #000;
+    stroke-width: 2;
   }
   .legend {
     display: flex;
@@ -256,6 +323,16 @@
     border: 1px solid #ccc;
   }
   .legend-label {
-    font-size: 14px;
+    font-size: 14px;  }
+  .sunburst-container {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+  .selected-node {
+  stroke: #000;
+  stroke-width: 2;
+}
 </style>

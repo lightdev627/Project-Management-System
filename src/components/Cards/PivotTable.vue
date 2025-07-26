@@ -1,3 +1,145 @@
+<script setup>
+  import { onMounted, ref } from 'vue';
+  import { getItem } from '../../actions/getItem';
+
+  const data = ref([]);
+  const pivotData1Q = ref([]);
+  const pivotData2Q = ref([]);
+  const pivotData3Q = ref([]);
+
+  onMounted(() => {
+    const fields = ["Id", "Title", "start_date", "end_date", "duration", "deadline_date", "passed_days", "left_days", "timeline_progress", "status", "assigned_to"];
+
+    getItem("Plans", fields).then(res => {
+      data.value = res;
+
+      pivotData1Q.value = res.map(item => {
+        return {
+          project: item.Title,
+          progress: item.timeline_progress
+        }
+      })
+
+      pivotData2Q.value = res.map(item => {
+        return {
+          project: item.Title,
+          daysPassed: item.passed_days,
+          daysLeft: item.left_days
+        }
+      })
+
+      const data1 = [
+        { status: "completed", assigned_to: "Norman Whitehead" },
+        { status: "completed", assigned_to: "Bob Dasika" },
+        { status: "delayed", assigned_to: "Gale Wallace" },
+        { status: "in progress", assigned_to: "Gale Wallace" },
+        { status: "in progress", assigned_to: "Bob Dasika" },
+      ];
+
+      const statusCounts = data1.reduce((acc, item) => {
+        const status = item.status;
+        if (acc[status]) {
+          acc[status]++;
+        } else {
+          acc[status] = 1;
+        }
+        return acc;
+      }, {});
+
+      pivotData3Q.value = Object.keys(statusCounts).map(status => ({
+        status: status,
+        count: statusCounts[status]
+      }));
+
+
+      
+    })
+  })
+
+  const pivotColumns1Q = [
+    { name: "project", label: "PROJECT", field: "project", align: "left" },
+    { name: "progress", label: "PROGRESS %", field: "progress", align: "left" },
+  ];
+
+  const pivotColumns2Q = [
+    { name: "project", label: "PROJECT", field: "project", align: "left" },
+    { name: "daysPassed", label: "DAYS PASSED", field: "daysPassed", align: "left" },
+    { name: "daysLeft", label: "DAYS LEFT", field: "daysLeft", align: "left" },
+  ];
+
+  const pivotColumns3Q = [
+    { name: "status", label: "STATUS", field: "status", align: "left" },
+    { name: "count", label: "COUNT", field: "count", align: "left" },
+  ];
+
+  const pivotColumns4Q = [
+    { name: "member", label: "MEMBER", field: "member", align: "left" },
+    { name: "completed", label: "COMPLETED", field: "completed", align: "left" },
+    { name: "ongoing", label: "ON GOING", field: "ongoing", align: "left" },
+    { name: "delayed", label: "DELAYED", field: "delayed", align: "left" },
+    { name: "pending", label: "PENDING", field: "pending", align: "left" },
+    { name: "notStarted", label: "NOT STARTED", field: "notStarted", align: "left" },
+  ];
+  const pivotData4Q = [
+    {
+      member: "Norman Whitehead",
+      completed: 0,
+      ongoing: 0,
+      delayed: 0,
+      pending: 0,
+      notStarted: 0,
+    },
+    {
+      member: "Bob Dasika",
+      completed: 0,
+      ongoing: 0,
+      delayed: 0,
+      pending: 0,
+      notStarted: 0,
+    },
+    {
+      member: "Jaydeep Patel",
+      completed: 0,
+      ongoing: 0,
+      delayed: 0,
+      pending: 0,
+      notStarted: 0,
+    },
+    {
+      member: "Gale Wallace",
+      completed: 0,
+      ongoing: 0,
+      delayed: 0,
+      pending: 0,
+      notStarted: 0,
+    },
+    {
+      member: "Ricardo James",
+      completed: 0,
+      ongoing: 0,
+      delayed: 0,
+      pending: 0,
+      notStarted: 0,
+    },
+    {
+      member: "Shilpa Vadlamudi",
+      completed: 0,
+      ongoing: 0,
+      delayed: 0,
+      pending: 0,
+      notStarted: 0,
+    },
+    {
+      member: "Tommeka Johnson",
+      completed: 0,
+      ongoing: 0,
+      delayed: 0,
+      pending: 0,
+      notStarted: 0,
+    },
+  ];
+</script>
+
 <template>
   <div class="pivot-section">
     <div class="pivot-header">PIVOT TABLES</div>
@@ -95,108 +237,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-  const pivotColumns1Q = [
-    { name: "project", label: "PROJECT", field: "project", align: "left" },
-    { name: "progress", label: "PROGRESS %", field: "progress", align: "left" },
-  ];
-  const pivotData1Q = [
-    { project: "Planning", progress: "100%" },
-    { project: "BCAC_Phase_2", progress: "0%" },
-    { project: "BCAC_Phase_3", progress: "0%" },
-  ];
-
-  const pivotColumns2Q = [
-    { name: "project", label: "PROJECT", field: "project", align: "left" },
-    { name: "daysPassed", label: "DAYS PASSED", field: "daysPassed", align: "left" },
-    { name: "daysLeft", label: "DAYS LEFT", field: "daysLeft", align: "left" },
-  ];
-  const pivotData2Q = [
-    { project: "Planning", daysPassed: 125, daysLeft: 0 },
-    { project: "BCAC_Phase_2", daysPassed: 0, daysLeft: 66 },
-    { project: "BCAC_Phase_3", daysPassed: 111, daysLeft: 0 },
-  ];
-
-  const pivotColumns3Q = [
-    { name: "status", label: "STATUS", field: "status", align: "left" },
-    { name: "count", label: "COUNT", field: "count", align: "left" },
-  ];
-  const pivotData3Q = [
-    { status: "COMPLETED", count: 8 },
-    { status: "ON GOING", count: 4 },
-    { status: "DELAYED", count: 1 },
-    { status: "PENDING", count: 2 },
-    { status: "NOT STARTED", count: 3 },
-  ];
-
-  const pivotColumns4Q = [
-    { name: "member", label: "MEMBER", field: "member", align: "left" },
-    { name: "completed", label: "COMPLETED", field: "completed", align: "left" },
-    { name: "ongoing", label: "ON GOING", field: "ongoing", align: "left" },
-    { name: "delayed", label: "DELAYED", field: "delayed", align: "left" },
-    { name: "pending", label: "PENDING", field: "pending", align: "left" },
-    { name: "notStarted", label: "NOT STARTED", field: "notStarted", align: "left" },
-  ];
-  const pivotData4Q = [
-    {
-      member: "Norman Whitehead",
-      completed: 0,
-      ongoing: 0,
-      delayed: 0,
-      pending: 0,
-      notStarted: 0,
-    },
-    {
-      member: "Bob Dasika",
-      completed: 0,
-      ongoing: 0,
-      delayed: 0,
-      pending: 0,
-      notStarted: 0,
-    },
-    {
-      member: "Jaydeep Patel",
-      completed: 0,
-      ongoing: 0,
-      delayed: 0,
-      pending: 0,
-      notStarted: 0,
-    },
-    {
-      member: "Gale Wallace",
-      completed: 0,
-      ongoing: 0,
-      delayed: 0,
-      pending: 0,
-      notStarted: 0,
-    },
-    {
-      member: "Ricardo James",
-      completed: 0,
-      ongoing: 0,
-      delayed: 0,
-      pending: 0,
-      notStarted: 0,
-    },
-    {
-      member: "Shilpa Vadlamudi",
-      completed: 0,
-      ongoing: 0,
-      delayed: 0,
-      pending: 0,
-      notStarted: 0,
-    },
-    {
-      member: "Tommeka Johnson",
-      completed: 0,
-      ongoing: 0,
-      delayed: 0,
-      pending: 0,
-      notStarted: 0,
-    },
-  ];
-</script>
 
 <style scoped>
   .pivot-section {
